@@ -161,7 +161,7 @@ export default function UserDashboard() {
         {/* Section 1: Account Overview Cards */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Total Balance Card */}
-          <div className="bg-[#005a78] text-white text-left p-6 rounded-lg shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[140px]">
+          <div className="bg-[#005a78] text-white text-left p-6 rounded-lg shadow-sm relative overflow-hidden flex flex-col justify-between min-h-35">
             <div>
               <p className="text-xs uppercase tracking-wider opacity-75 font-medium">
                 Total Balance
@@ -181,13 +181,13 @@ export default function UserDashboard() {
               <span>+2.4% vs last month</span>
             </div>
             <div className="absolute right-4 bottom-4 opacity-10">
-              <Wallet className="w-[72px] h-[72px]" />
+              <Wallet className="w-18 h-18" />
             </div>
           </div>
 
           {/* Checking Account Card */}
           <div
-            className={`p-6 rounded-lg shadow-sm flex flex-col justify-between min-h-[140px] border transition-all ${
+            className={`p-6 rounded-lg shadow-sm flex flex-col justify-between min-h-35 border transition-all ${
               isChecking
                 ? "bg-[#005a78] text-white border-[#005a78] vibrate"
                 : "bg-white text-[#001e2b] border-[#e1e9ef]"
@@ -239,7 +239,7 @@ export default function UserDashboard() {
 
           {/* Savings Account Card */}
           <div
-            className={`p-6 rounded-lg shadow-sm flex flex-col justify-between min-h-[140px] border transition-all ${
+            className={`p-6 rounded-lg shadow-sm flex flex-col justify-between min-h-35 border transition-all ${
               isSavings
                 ? "bg-[#005a78] text-white border-[#005a78] vibrate"
                 : "bg-white text-[#001e2b] border-[#e1e9ef]"
@@ -527,18 +527,18 @@ export default function UserDashboard() {
                 Check Security Settings
               </button>
               <div className="absolute -bottom-3 -right-3 opacity-5">
-                <ShieldCheck className="w-[72px] h-[72px]" />
+                <ShieldCheck className="w-18 h-18" />
               </div>
             </div>
 
             {/* Micro Marketing Image Unit */}
-            <div className="relative rounded-lg overflow-hidden group h-[135px]">
+            <div className="relative rounded-lg overflow-hidden group h-33.75">
               <img
                 alt="Dream Home Promotion"
                 className="w-full h-full object-cover"
                 src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&q=80"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#123644]/90 via-[#123644]/40 to-transparent p-4 flex flex-col justify-end">
+              <div className="absolute inset-0 bg-linear-to-t from-[#123644]/90 via-[#123644]/40 to-transparent p-4 flex flex-col justify-end">
                 <h4 className="text-white font-bold text-sm">Dream Home?</h4>
                 <p className="text-white/80 text-xs">
                   Mortgage rates as low as 5.2%

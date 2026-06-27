@@ -17,7 +17,7 @@ import Business from "./pages/Business";
 import Loans from "./pages/Loans";
 import Personal from "./pages/Personal";
 import AllTransactionHistory from "./pages/AllTransactionHistory";
-import PublicLayout from "./Layouts/PublicLayout";
+import PublicLayout from "./layouts/PublicLayout";
 import About from "./pages/About";
 import NewAccountForth from "./auth/NewAccountForth";
 import CreditDebit from "./pages/CreditDebit";
@@ -35,7 +35,7 @@ import SecondSepTransfer from "./pages/SecondSepTransfar";
 import ThirdSetTransfer from "./pages/ThirdSetTransfar";
 import ChangeTransactionPin from "./auth/ChangeTransactionPin";
 import SupportHelpCenter from "./pages/SupportHelpCenter";
-import NewAccountfirst from "./auth/NewAccountfirst";
+import NewAccountFirst from "./auth/NewAccountFirst";
 
 function App() {
   return (
@@ -52,7 +52,7 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/new-account" element={<NewAccountfirst />} />
+              <Route path="/new-account" element={<NewAccountFirst />} />
               <Route
                 path="/account-persional-info"
                 element={<NewAccountSecond />}
@@ -66,7 +66,6 @@ function App() {
               <Route path="/personal" element={<Personal />} />
               <Route path="/pay-bills" element={<PayBills />} />
               <Route path="/deposit-check" element={<DepositCheck />} />
-              /*{" "}
             </Route>
 
             {/* Protected Routes - All inside Layout for persistent sidebar */}
