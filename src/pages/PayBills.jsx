@@ -35,7 +35,7 @@ export default function PayBills() {
                 Quick Pay
               </h2>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {/* Biller Card: Electric */}
                 <div className="p-6 bg-white border border-[#E2E8F0] rounded-xl flex flex-col items-center text-center shadow-sm">
                   <div className="w-12 h-12 bg-[#E3F2FD] text-[#004B6E] rounded-full flex items-center justify-center mb-3">
