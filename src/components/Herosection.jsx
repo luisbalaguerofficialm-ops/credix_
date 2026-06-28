@@ -106,7 +106,7 @@ const Herosection = () => {
         </div>
 
         {/* LOGIN CARD */}
-        <div className="absolute z-20 right-5 xl:right-20 bottom-[-130px] w-full max-w-[430px] hidden lg:block">
+        <div className="absolute z-20 right-6 xl:right-20 bottom-[-130px] w-full max-w-[430px] hidden lg:block">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-8">
             {/* Header */}
             <div className="text-center mb-8">
