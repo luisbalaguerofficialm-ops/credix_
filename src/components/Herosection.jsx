@@ -88,7 +88,7 @@ const Herosection = () => {
               Your Partner in Growth and Success.
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-100 mt-6 max-w-[700px]">
+            <p className="text-lg md:text-xl text-gray-100 mt-6 max-w-175">
               Empowering individuals and businesses with seamless digital
               banking, smart savings, and tailored credit solutions designed to
               help you grow faster and achieve more.
@@ -106,7 +106,7 @@ const Herosection = () => {
         </div>
 
         {/* LOGIN CARD */}
-        <div className="absolute z-20 right-6 xl:right-20 bottom-[-130px] w-full max-w-[430px] hidden lg:block">
+        <div className="absolute z-20 right-6 xl:right-20 bottom-[-32.5 w-full max-w-107.5 hidden lg:block">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-8">
             {/* Header */}
             <div className="text-center mb-8">

@@ -4,7 +4,7 @@ export default function PayBills() {
   return (
     <div className="bg-[#F4F9FC] text-[#001F2A] font-sans min-h-screen flex flex-col">
       {/* Main Content Canvas */}
-      <main className="flex-grow max-w-[1200px] w-full mx-auto px-6 py-10">
+      <main className="grow max-w-300 w-full mx-auto px-6 py-10">
         <header className="mb-8">
           <h1 className="text-4xl font-bold text-[#004B6E] mb-2">Pay Bills</h1>
           <p className="text-[#556370] text-base max-w-3xl">
@@ -307,7 +307,7 @@ export default function PayBills() {
                 <div className="space-y-4">
                   {/* Scheduled Item 1 */}
                   <div className="flex gap-3 items-center pb-4 border-b border-[#D0E3ED]">
-                    <div className="bg-white px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] shadow-sm text-center min-w-[54px]">
+                    <div className="bg-white px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] shadow-sm text-center min-w-13.5">
                       <span className="text-[10px] font-bold text-[#718096] block uppercase tracking-wider">
                         Oct
                       </span>
@@ -315,7 +315,7 @@ export default function PayBills() {
                         15
                       </span>
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <p className="font-bold text-sm text-[#002230] leading-snug">
                         Mortgage Payment
                       </p>
@@ -335,7 +335,7 @@ export default function PayBills() {
 
                   {/* Scheduled Item 2 */}
                   <div className="flex gap-3 items-center pb-4 border-b border-[#D0E3ED]">
-                    <div className="bg-white px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] shadow-sm text-center min-w-[54px]">
+                    <div className="bg-white px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] shadow-sm text-center min-w-13.5">
                       <span className="text-[10px] font-bold text-[#718096] block uppercase tracking-wider">
                         Oct
                       </span>
@@ -343,7 +343,7 @@ export default function PayBills() {
                         18
                       </span>
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <p className="font-bold text-sm text-[#002230] leading-snug">
                         Gym Membership
                       </p>
@@ -359,7 +359,7 @@ export default function PayBills() {
 
                   {/* Scheduled Item 3 */}
                   <div className="flex gap-3 items-center">
-                    <div className="bg-white px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] shadow-sm text-center min-w-[54px]">
+                    <div className="bg-white px-2.5 py-1.5 rounded-lg border border-[#E2E8F0] shadow-sm text-center min-w-13.5">
                       <span className="text-[10px] font-bold text-[#718096] block uppercase tracking-wider">
                         Oct
                       </span>
@@ -367,7 +367,7 @@ export default function PayBills() {
                         22
                       </span>
                     </div>
-                    <div className="flex-grow">
+                    <div className="grow">
                       <p className="font-bold text-sm text-[#002230] leading-snug">
                         Streaming Bundle
                       </p>
