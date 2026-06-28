@@ -82,13 +82,13 @@ const Herosection = () => {
         <div className="absolute inset-0 bg-black/40" />
 
         {/* Hero Content */}
-        <div className="relative z-10 h-full max-w-7xl mx-auto px-6 lg:px-12 flex items-center">
+        <div className="relative z-10 h-full max-w-7xl mx-auto px-5 lg:px-12 flex items-center">
           <div className="max-w-3xl text-white">
             <h1 className="font-semibold leading-tight text-[50px] md:text-[70px]">
               Your Partner in Growth and Success.
             </h1>
 
-            <p className="text-lg md:text-xl text-gray-100 mt-6 max-w-175">
+            <p className="text-lg md:text-xl text-gray-100 mt-7 max-w-175">
               Empowering individuals and businesses with seamless digital
               banking, smart savings, and tailored credit solutions designed to
               help you grow faster and achieve more.
