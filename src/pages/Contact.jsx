@@ -8,28 +8,18 @@ import {
   MapPin,
   AlertTriangle,
 } from "lucide-react";
+import imqq from "../assets/ima.jpg";
+import map from "../assets/map.jpg";
+import { Link } from "react-router-dom";
 
 export default function Contact() {
   return (
     <div className="bg-[#eef5f8] text-[#0f172a] min-h-screen">
-      {/* Top Utility Bar */}
-      <div className="bg-[#083b4c] text-white py-2">
-        <div className="max-w-7xl mx-auto px-4 flex justify-end gap-6 text-xs">
-          <a href="#">Find an ATM</a>
-          <a href="#">Security Center</a>
-          <a href="#">Lost/Stolen Cards</a>
-        </div>
-      </div>
       {/* Hero */}
       <section className="relative h-[400px]">
-        <img
-          alt=""
-          class="w-full h-full object-cover opacity-40"
-          data-alt="A modern architectural glass building reflecting a soft blue sky during the golden hour. The lighting is crisp and professional, emphasizing a corporate and secure banking atmosphere. The visual style is clean, high-contrast, and airy, featuring a cool teal and white color palette that conveys institutional reliability and modern financial services."
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9R5_7QOhYZKIThmYe5e4GHSDX8Ha6mnWrMqqSl7ZSBbZXws611wepajY5gG5SIrsVUUw9pLR9IuVNpPWwNxAEIhHJyVAPZRyS8Nnkcn3k8WWcPahJWXJ5rira4H9tMhp2fiwdCzV8Wz-D6dvodcVmw506zF6pVV1Cz3neC-Q8ZM8VvSs6d6YZUv2b_nkF4RRM2axXU2HDWpj0frVcB-MWJklQbiWBi4nMdk6w0ivrx-riTFACiWHCynzG0PXGoEN8WmDisUgHRRA"
-        />
+        <img alt="" class="w-full h-full" src={imqq} />
 
-        <div className="absolute inset-0 bg-[#083b4c]/60" />
+        <div className="absolute inset-0" />
       </section>
       {/* Contact Cards */}
       <section className="max-w-7xl mx-auto px-4 -mt-16 relative z-10">
@@ -80,9 +70,12 @@ export default function Contact() {
               Chat with a representative in real-time for immediate assistance.
             </p>
 
-            <button className="bg-[#7aa000] px-6 py-3 rounded-lg font-semibold">
+            <Link
+              to="/new-account"
+              className="bg-[#7aa000] px-6 py-3 rounded-lg font-semibold"
+            >
               Start Chat Now
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -145,15 +138,15 @@ export default function Contact() {
             <div className="relative mb-6">
               <Search className="absolute left-4 top-3.5" size={18} />
 
-              <input
+              {/* <input
                 type="text"
                 placeholder="Enter zip code or city"
                 className="w-full pl-12 p-3 rounded-lg border"
-              />
+              /> */}
             </div>
 
             <img
-              src="https://images.unsplash.com/photo-1524661135-423995f22d0b"
+              src={map}
               alt=""
               className="rounded-lg h-72 w-full object-cover"
             />

@@ -14,53 +14,6 @@ export default function ProfileAndSettings() {
 
   return (
     <div className="bg-[#F4F8FA] text-[#001F2A] text-left font-sans min-h-screen flex flex-col">
-      {/* Top Header Navigation Bar */}
-      <header className="bg-white border-b border-[#E2E8F0] sticky top-0 z-50">
-        <div className="flex justify-between items-center w-full px-6 h-16 max-w-[1240px] mx-auto">
-          <div className="flex items-center gap-8">
-            <span className="text-xl font-bold text-[#004B6E]">
-              Meridian Credit Union
-            </span>
-            <nav className="hidden md:flex gap-6 items-center text-sm font-semibold text-[#556370]">
-              <a className="hover:text-[#004B6E] transition-colors" href="#">
-                Accounts
-              </a>
-              <a className="hover:text-[#004B6E] transition-colors" href="#">
-                Support
-              </a>
-            </nav>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button className="p-2 rounded-full hover:bg-slate-100 transition-colors relative">
-              <svg
-                className="w-5 h-5 text-[#556370]"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.07 6.07 0 00-1-3.5M9 17v1a3 3 0 006 0v-1M9 17H4l1.405-1.405A2.032 2.032 0 005 14.158V11a6.07 6.07 0 011-3.5m7-3.5a3.37 3.37 0 11-6.74 0 3.37 3.37 0 016.74 0z"
-                />
-              </svg>
-              <span className="absolute top-2 right-2 w-2 h-2 bg-[#004B6E] rounded-full"></span>
-            </button>
-
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#EDF6FA] rounded-full border border-[#D0E3ED]">
-              <div className="w-5 h-5 rounded-full bg-[#004B6E] flex items-center justify-center text-white text-[10px] font-bold">
-                AR
-              </div>
-              <span className="text-xs font-bold text-[#004B6E]">
-                Alex Rivera
-              </span>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Main Container */}
       <div className="flex-grow w-full max-w-[1240px] mx-auto px-6 py-10">
         <header className="mb-8">
@@ -185,28 +138,13 @@ export default function ProfileAndSettings() {
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-[#556370]">
-                    Preferred Language
+                    State
                   </label>
-                  <div className="relative">
-                    <select className="w-full p-3 text-sm bg-[#F4F8FA] border border-[#D1DBE0] rounded-lg text-[#002230] outline-none appearance-none cursor-pointer pr-10 focus:border-[#004B6E]">
-                      <option>English (US)</option>
-                      <option>Spanish</option>
-                      <option>French</option>
-                    </select>
-                    <svg
-                      className="w-4 h-4 text-[#718096] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                  </div>
+                  <input
+                    type="text"
+                    defaultValue="Alabama"
+                    className="w-full p-3 text-sm bg-[#F4F8FA] border border-[#D1DBE0] rounded-lg text-[#002230] outline-none focus:border-[#004B6E]"
+                  />
                 </div>
 
                 <div className="space-y-1.5 sm:col-span-2">

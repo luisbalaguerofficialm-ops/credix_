@@ -19,6 +19,7 @@ import logo4 from "../../assets/logo4.png";
 import logo5 from "../../assets/logo5.png";
 import logs from "../../assets/credit-union.jpg";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 const MainHome = () => {
   return (
@@ -109,13 +110,22 @@ const MainHome = () => {
           </div>
 
           {/* Right: Image */}
-          <div className="flex-1 flex items-end justify-end">
+          <motion.div
+            className="flex-1 flex items-end justify-end"
+            initial={{ opacity: 0, x: 120 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 1,
+              delay: 0.2,
+            }}
+          >
             <img
               src={growthImg}
               alt="We’re Your Growth Partner"
               className="w-full max-w-[520px] h-auto object-contain"
             />
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -268,15 +278,23 @@ const MainHome = () => {
             grow confidently — today and tomorrow.
           </p>
 
-          <button className="bg-[#007C92] w-[120px] h-10 text-white text-sm px-8 py-3 rounded-lg hover:bg-[#006b80] transition duration-200">
+          <button className="bg-[#007C92] w-[140px] h-10 text-white text-sm px-8 py-2 rounded-lg hover:bg-[#006b80] transition duration-200">
             Learn More
           </button>
         </div>
       </section>
       {/* ===================== */}
 
-      <div className="bg-white py-10">
-        <div className="max-w-7xl mx-auto flex justify-between mt-20 items-center gap-4 px-6 md:px-20 h-[250px]">
+      <div className="bg-white py-10 overflow-hidden">
+        <div className="relative flex w-max animate-marquee gap-20 mt-20 items-center h-[250px]">
+          {/* First Set */}
+          <img src={logo1} alt="Logo 1" className="h-[50px] object-contain" />
+          <img src={logo2} alt="Logo 2" className="h-[50px] object-contain" />
+          <img src={logo3} alt="Logo 3" className="h-[50px] object-contain" />
+          <img src={logo4} alt="Logo 4" className="h-[50px] object-contain" />
+          <img src={logo5} alt="Logo 5" className="h-[50px] object-contain" />
+
+          {/* Duplicate Set */}
           <img src={logo1} alt="Logo 1" className="h-[50px] object-contain" />
           <img src={logo2} alt="Logo 2" className="h-[50px] object-contain" />
           <img src={logo3} alt="Logo 3" className="h-[50px] object-contain" />
@@ -296,7 +314,7 @@ const MainHome = () => {
         </p>
         <Link
           to="/Open-Account"
-          className="w-[150px] h-[42px] transition duration-300 rounded-lg bg-[#006A91] text-white text-sm font-medium hover:bg-[#005c7d]"
+          className="w-[150px] h-[42px] transition duration-300 rounded-lg bg-[#006A91] text-white text-sm font-medium hover:bg-[#005c7d] py-2"
         >
           Open An Account
         </Link>

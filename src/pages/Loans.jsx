@@ -1,8 +1,10 @@
 import React from "react";
+import CountUp from "../components/ui/CountUp";
+import { Link } from "react-router-dom";
 
 export default function Loans() {
   return (
-    <div className="bg-white text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
+    <div className="bg-white text-[#001f29] min-h-screen text-left flex flex-col font-sans antialiased">
       {/* Top Utility Bar */}
       <div className="bg-[#11242e] text-white py-2 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-end gap-6 text-[11px] font-medium opacity-80">
@@ -38,14 +40,6 @@ export default function Loans() {
                 options and competitive rates are designed to fuel your
                 ambitions while maintaining your financial peace of mind.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <button className="bg-[#006a91] text-white border border-[#006a91] px-6 py-3 rounded text-xs font-bold hover:bg-[#00516f] transition-colors shadow-sm">
-                  Check My Rate
-                </button>
-                <button className="bg-white/10 backdrop-blur-xs text-white border border-white/20 px-6 py-3 rounded text-xs font-bold hover:bg-white/20 transition-colors">
-                  View All Rates
-                </button>
-              </div>
             </div>
           </div>
         </section>
@@ -60,7 +54,7 @@ export default function Loans() {
                   Mortgage Loans
                 </div>
                 <div className="text-2xl font-bold text-[#003853] mb-2">
-                  6.45%{" "}
+                  <CountUp to={11.7} decimals={2} suffix="%" />
                   <span className="text-xs font-medium text-[#556570] ml-1">
                     APR
                   </span>
@@ -94,7 +88,7 @@ export default function Loans() {
                   Auto Loans
                 </div>
                 <div className="text-2xl font-bold text-[#003853] mb-2">
-                  4.25%{" "}
+                  <CountUp to={9.25} decimals={2} suffix="%" />
                   <span className="text-xs font-medium text-[#556570] ml-1">
                     APR
                   </span>
@@ -128,7 +122,7 @@ export default function Loans() {
                   Personal Loans
                 </div>
                 <div className="text-2xl font-bold text-[#003853] mb-2">
-                  8.99%{" "}
+                  <CountUp to={29.25} decimals={2} suffix="%" />
                   <span className="text-xs font-medium text-[#556570] ml-1">
                     APR
                   </span>
@@ -177,7 +171,7 @@ export default function Loans() {
                           Loan Amount
                         </label>
                         <span className="text-xs font-bold text-[#00516f] bg-white px-2 py-0.5 rounded border border-[#e2eaf0] shadow-2xs">
-                          $25,000
+                          <CountUp prefix="$" to={3729} />
                         </span>
                       </div>
                       <input
@@ -226,7 +220,7 @@ export default function Loans() {
                     Estimated Monthly Payment
                   </div>
                   <div className="text-4xl font-bold tracking-tight mb-4">
-                    $567.28
+                    <CountUp prefix="$" to={567.28} decimals={2} />
                   </div>
                   <p className="text-xs text-white/70 leading-relaxed mb-8 max-w-lg">
                     Estimated based on selected rate. Final terms may vary based
@@ -238,22 +232,28 @@ export default function Loans() {
                       <div className="text-[10px] uppercase tracking-wider text-white/50 mb-1">
                         Total Interest
                       </div>
-                      <div className="text-lg font-bold text-white">$2,229</div>
+                      <div className="text-lg font-bold text-white">
+                        {" "}
+                        <CountUp prefix="$" to={8229} />
+                      </div>
                     </div>
                     <div>
                       <div className="text-[10px] uppercase tracking-wider text-white/50 mb-1">
                         Total Repayment
                       </div>
                       <div className="text-lg font-bold text-white">
-                        $27,229
+                        <CountUp prefix="$" to={2229} />
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <button className="w-full bg-[#bde46b] text-[#11242e] py-3 rounded text-xs font-bold hover:bg-[#acd45a] transition-colors shadow-xs">
+                <Link
+                  to={"/new-account"}
+                  className="w-full bg-[#bde46b] text-[#11242e] py-3 pl-4 rounded text-xs font-bold hover:bg-[#acd45a] transition-colors shadow-xs"
+                >
                   Start Full Application
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -274,7 +274,7 @@ export default function Loans() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {/* Card 1: Mortgages */}
-              <div className="bg-white rounded-xl border border-[#e2eaf0] overflow-hidden shadow-2xs transition-transform hover:-translate-y-0.5">
+              <div className="w-[360px] flex-shrink-0 bg-white rounded-xl border border-[#e2eaf0] overflow-hidden shadow-2xs">
                 <div className="h-44 bg-gray-100">
                   <img
                     className="w-full h-full object-cover"
@@ -330,14 +330,11 @@ export default function Loans() {
                       Seamless Digital Closing
                     </li>
                   </ul>
-                  <button className="w-full py-2.5 border border-[#e2eaf0] hover:border-[#003853] text-[#003853] text-xs font-bold rounded-lg hover:bg-gray-50 transition-colors">
-                    Learn More
-                  </button>
                 </div>
               </div>
 
               {/* Card 2: Vehicle Loans */}
-              <div className="bg-white rounded-xl border border-[#e2eaf0] overflow-hidden shadow-2xs transition-transform hover:-translate-y-0.5">
+              <div className="w-[360px] flex-shrink-0 bg-white rounded-xl border border-[#e2eaf0] overflow-hidden shadow-2xs">
                 <div className="h-44 bg-gray-100">
                   <img
                     className="w-full h-full object-cover"
@@ -393,14 +390,11 @@ export default function Loans() {
                       EV Specialty Discounts
                     </li>
                   </ul>
-                  <button className="w-full py-2.5 border border-[#e2eaf0] hover:border-[#003853] text-[#003853] text-xs font-bold rounded-lg hover:bg-gray-50 transition-colors">
-                    Learn More
-                  </button>
                 </div>
               </div>
 
               {/* Card 3: Personal & Credit */}
-              <div className="bg-white rounded-xl border border-[#e2eaf0] overflow-hidden shadow-2xs transition-transform hover:-translate-y-0.5">
+              <div className="w-[360px] flex-shrink-0 bg-white rounded-xl border border-[#e2eaf0] overflow-hidden shadow-2xs">
                 <div className="h-44 bg-gray-100">
                   <img
                     className="w-full h-full object-cover"
@@ -456,9 +450,6 @@ export default function Loans() {
                       Travel Rewards Cards
                     </li>
                   </ul>
-                  <button className="w-full py-2.5 border border-[#e2eaf0] hover:border-[#003853] text-[#003853] text-xs font-bold rounded-lg hover:bg-gray-50 transition-colors">
-                    Learn More
-                  </button>
                 </div>
               </div>
             </div>
@@ -475,7 +466,10 @@ export default function Loans() {
               Checking your rate won't impact your credit score. It takes less
               than 3 minutes to find your best offer.
             </p>
-            <button className="bg-[#bde46b] text-[#11242e] px-8 py-3.5 rounded text-xs font-bold hover:bg-[#acd45a] transition-colors shadow-md inline-flex items-center gap-2">
+            <Link
+              to={"/login"}
+              className="bg-[#bde46b] text-[#11242e] px-8 py-3.5 rounded text-xs font-bold hover:bg-[#acd45a] transition-colors shadow-md inline-flex items-center gap-2"
+            >
               Check My Rate Now
               <svg
                 className="w-3.5 h-3.5"
@@ -490,7 +484,7 @@ export default function Loans() {
                   d="M13 10V3L4 14h7v7l9-11h-7z"
                 />
               </svg>
-            </button>
+            </Link>
           </div>
         </section>
       </main>

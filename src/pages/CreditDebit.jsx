@@ -1,57 +1,10 @@
 import React from "react";
+import CountUp from "../components/ui/CountUp";
+import { Link } from "react-router-dom";
 
 export default function CreditDebit() {
   return (
-    <div className="bg-[#f8fafb] text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
-      {/* Top Utility Bar */}
-      <div className="bg-[#1b3644] text-white py-2 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-end gap-6">
-          <a
-            className="text-[11px] font-medium opacity-80 hover:opacity-100 transition-opacity flex items-center gap-1.5"
-            href="#"
-          >
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            Locations
-          </a>
-          <a
-            className="text-[11px] font-medium opacity-80 hover:opacity-100 transition-opacity flex items-center gap-1.5"
-            href="#"
-          >
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-              />
-            </svg>
-            Help Center
-          </a>
-        </div>
-      </div>
-
+    <div className="bg-[#f8fafb] text-left text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
       <main>
         {/* Hero Section */}
         <section className="relative bg-gradient-to-r from-[#11242e] to-[#1b3644] min-h-[520px] flex items-center overflow-hidden">
@@ -72,20 +25,6 @@ export default function CreditDebit() {
                 From daily essentials to global adventures, our range of credit
                 and debit cards is designed to reward every choice you make.
               </p>
-              <div className="flex flex-wrap gap-4">
-                <a
-                  className="bg-[#658c03] text-white px-6 py-3 rounded text-xs font-bold hover:bg-[#527202] transition-colors shadow-sm"
-                  href="#comparison"
-                >
-                  Compare Cards
-                </a>
-                <a
-                  className="border border-white/60 text-white px-6 py-3 rounded text-xs font-bold hover:bg-white/10 transition-colors"
-                  href="#"
-                >
-                  Current Offers
-                </a>
-              </div>
             </div>
           </div>
         </section>
@@ -215,7 +154,14 @@ export default function CreditDebit() {
                 </div>
                 <div className="mt-auto">
                   <span className="text-[10px] font-extrabold text-[#718594] uppercase tracking-wider">
-                    Rates as low as 12.99%
+                    Rates as low as{" "}
+                    <CountUp
+                      start={0}
+                      end={12.99}
+                      duration={2}
+                      decimals={2}
+                      suffix="%"
+                    />
                   </span>
                 </div>
               </div>
@@ -229,9 +175,6 @@ export default function CreditDebit() {
                     your card is accepted at millions of merchants worldwide and
                     thousands of surcharge-free ATMs.
                   </p>
-                  <button className="bg-white text-[#00516f] px-5 py-2 rounded text-xs font-bold hover:bg-[#f8fafb] transition-colors">
-                    Learn More
-                  </button>
                 </div>
                 <div className="w-full md:w-52 shrink-0 relative z-10">
                   <img
@@ -428,7 +371,7 @@ export default function CreditDebit() {
                       </div>
                     </td>
                   </tr>
-                  <tr>
+                  {/* <tr>
                     <td className="p-5"></td>
                     <td className="p-5 text-center">
                       <button className="text-[#00516f] font-bold text-xs hover:underline">
@@ -445,7 +388,7 @@ export default function CreditDebit() {
                         Apply Now
                       </button>
                     </td>
-                  </tr>
+                  </tr> */}
                 </tbody>
               </table>
             </div>
@@ -463,9 +406,12 @@ export default function CreditDebit() {
               start using your digital card immediately.
             </p>
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-              <button className="bg-[#658c03] text-white px-8 py-3.5 rounded text-xs font-bold hover:bg-[#527202] transition-colors shadow-md">
+              <Link
+                to={"/login"}
+                className="bg-[#658c03] text-white px-8 py-3.5 rounded text-xs font-bold hover:bg-[#527202] transition-colors shadow-md"
+              >
                 Start Your Application
-              </button>
+              </Link>
               <span className="text-white/50 text-xs font-medium">
                 No impact on your credit score to check.
               </span>

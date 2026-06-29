@@ -1,23 +1,71 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function Personal() {
+  const fadeUp = {
+    hidden: {
+      opacity: 0,
+      y: 60,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const fadeDown = {
+    hidden: {
+      opacity: 0,
+      y: -60,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const fadeLeft = {
+    hidden: {
+      opacity: 0,
+      x: -60,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const fadeRight = {
+    hidden: {
+      opacity: 0,
+      x: 60,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
   return (
-    <div className="bg-white text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
+    <div className="bg-white text-[#001f29] text-left min-h-screen flex flex-col font-sans antialiased">
       {/* Top Utility Nav Link Strip */}
-      <div className="bg-[#11242e] text-white py-2 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-end gap-6 text-[11px] font-medium opacity-80">
-          <a className="hover:text-white transition-colors" href="#">
-            Locations
-          </a>
-          <a className="hover:text-white transition-colors" href="#">
-            Support
-          </a>
-          <a className="hover:text-white transition-colors" href="#">
-            Security
-          </a>
-        </div>
-      </div>
+
       <main>
         {/* Hero Banner Area Component */}
         <section className="relative min-h-[480px] flex items-center overflow-hidden bg-gradient-to-r from-[#11242e] to-[#1b3644]">
@@ -43,7 +91,7 @@ export default function Personal() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to={"/first-set-transfer"}
+                  to={"/new-account"}
                   className="bg-[#bde46b] text-[#11242e] px-6 py-3 rounded text-xs font-bold hover:bg-[#acd45a] transition-colors shadow-sm"
                 >
                   Open an Account
@@ -71,7 +119,13 @@ export default function Personal() {
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               {/* Card Module 1: High Yield Savings Area Column */}
-              <div className="lg:col-span-7 bg-white p-8 rounded-2xl border border-[#e2eaf0] flex flex-col justify-between shadow-2xs min-h-[250px]">
+              <motion.div
+                variants={fadeLeft}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                className="lg:col-span-7 bg-white p-8 rounded-2xl border border-[#e2eaf0] flex flex-col justify-between shadow-2xs min-h-[250px]"
+              >
                 <div>
                   <div className="flex items-center gap-2 text-[#527202] text-[10px] font-bold uppercase tracking-wider mb-3">
                     <svg
@@ -118,10 +172,16 @@ export default function Personal() {
                     </svg>
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card Module 2: Freedom Checking Panel Context */}
-              <div className="lg:col-span-5 bg-[#00516f] p-8 rounded-2xl text-white flex flex-col justify-between shadow-xs min-h-[250px]">
+              <motion.div
+                variants={fadeRight}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                className="lg:col-span-5 bg-[#00516f] p-8 rounded-2xl text-white flex flex-col justify-between shadow-xs min-h-[250px]"
+              >
                 <div>
                   <div className="text-[#bde46b] mb-4">
                     <svg
@@ -165,10 +225,16 @@ export default function Personal() {
                     </svg>
                   </a>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card Module 3: Mobile Banking Column Content */}
-              <div className="lg:col-span-4 bg-white p-8 rounded-2xl border border-[#e2eaf0] flex flex-col justify-between shadow-2xs min-h-[250px]">
+              <motion.div
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                className="lg:col-span-4 bg-white p-8 rounded-2xl border border-[#e2eaf0] flex flex-col justify-between shadow-2xs min-h-[250px]"
+              >
                 <div>
                   <div className="text-[#00516f] mb-4">
                     <svg
@@ -200,10 +266,16 @@ export default function Personal() {
                     PLAY STORE
                   </span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card Module 4: Financial Wellness Row Split Column Panel */}
-              <div className="lg:col-span-8 bg-[#e8f5fd] border border-[#d2e6f4] rounded-2xl overflow-hidden flex flex-col sm:flex-row items-stretch shadow-2xs min-h-[250px]">
+              <motion.div
+                variants={fadeDown}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: false, amount: 0.3 }}
+                className="lg:col-span-8 bg-[#e8f5fd] border border-[#d2e6f4] rounded-2xl overflow-hidden flex flex-col sm:flex-row items-stretch shadow-2xs min-h-[250px]"
+              >
                 <div className="p-8 flex flex-col justify-between flex-1">
                   <div>
                     <h3 className="text-lg font-bold text-[#003853] mb-2">
@@ -227,7 +299,7 @@ export default function Personal() {
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwk_lZcvy0xcM7-fomPQHE2mra-E8lNe6_l626AiAnWhVn-AdW04vypwkusX9OTMPQOVedJ8lBFSb0Myvg4e-AmxzPC3xR5x-Q_GUuLE8cc1wHCR9gjrxKiOZYp-Ya-lYoFNj_6_Y_zYWv0chKqtIIibbEwZZAKfRWZdvkjYDu_qOmnAjmr1-NugTxjysc_TkZ07LaLtkLIxZIvoMcAkCelTWq95ec3bHiS5RiqIwyy0HO3yE-Exk-yla9bbrOpxKZM2VOkA10zL4"
                   />
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>

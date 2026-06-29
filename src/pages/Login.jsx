@@ -132,7 +132,7 @@ const Login = () => {
           <p className="text-center text-sm">
             Don’t have an account?{" "}
             <Link
-              to="/open-account"
+              to="/new-account"
               className="font-semibold text-[#006A91] hover:text-amber-300 underline"
             >
               Open Account

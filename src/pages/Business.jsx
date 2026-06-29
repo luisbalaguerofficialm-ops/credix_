@@ -1,9 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import CountUp from "../components/ui/CountUp";
+import ScrollReveal from "scrollreveal";
 
 export default function Business() {
+  useEffect(() => {
+    ScrollReveal().reveal(".from", {
+      duration: 4000,
+      origin: "bottom",
+      distance: "50px",
+      delay: 2000,
+      reset: true,
+    });
+    ScrollReveal().reveal(".late", {
+      duration: 4000,
+      origin: "left",
+      distance: "30px",
+      delay: 1000,
+      reset: true,
+    });
+  }, []);
   return (
-    <div className="bg-white text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
+    <div className="bg-white text-[#001f29] text-left min-h-screen flex flex-col font-sans antialiased">
       {/* Top Utility Bar */}
       <div className="bg-[#11242e] text-white py-2 border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-end gap-6 text-[11px] font-medium opacity-80">
@@ -41,14 +59,17 @@ export default function Business() {
               </p>
               <div className="flex flex-wrap gap-4">
                 <Link
-                  to={"/first-set-transfer"}
+                  to={"/new-account"}
                   className="bg-[#bde46b] text-[#11242e] px-6 py-3 rounded text-xs font-bold hover:bg-[#acd45a] transition-colors shadow-sm"
                 >
                   Open an Account
                 </Link>
-                <button className="bg-white/10 backdrop-blur-xs text-white border border-white/20 px-6 py-3 rounded text-xs font-bold hover:bg-white/20 transition-colors">
+                <Link
+                  to="/contact"
+                  className="bg-white/10 backdrop-blur-xs text-white border border-white/20 px-6 py-3 rounded text-xs font-bold hover:bg-white/20 transition-colors"
+                >
                   Schedule a Consultation
-                </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -147,9 +168,12 @@ export default function Business() {
                     equipment, and lines of credit.
                   </p>
                 </div>
-                <button className="w-full py-2.5 bg-white text-[#1b3644] rounded text-xs font-bold hover:bg-[#bde46b] hover:text-[#1b3644] transition-colors">
+                <Link
+                  to="/login"
+                  className="w-full py-2.5 bg-white text-[#1b3644] rounded text-xs font-bold hover:bg-[#bde46b] hover:text-[#1b3644] transition-colors"
+                >
                   Apply Now
-                </button>
+                </Link>
               </div>
 
               {/* Feature 3: Merchant Services */}
@@ -265,25 +289,33 @@ export default function Business() {
         <section className="py-12 bg-[#1b3644] text-white">
           <div className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl font-bold mb-1">15k+</div>
+              <div className="text-3xl font-bold mb-1">
+                <CountUp to={90} suffix="k+" />
+              </div>
               <div className="text-[10px] uppercase tracking-wider text-white/60">
                 Active Businesses
               </div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-1">$2.4B</div>
+              <div className="text-3xl font-bold mb-1">
+                <CountUp prefix="$" to={17.8} suffix="B" decimals={1} />
+              </div>
               <div className="text-[10px] uppercase tracking-wider text-white/60">
                 Small Business Loans
               </div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-1">24/7</div>
+              <div className="text-3xl font-bold mb-1">
+                <CountUp to={107} suffix="/7" />
+              </div>
               <div className="text-[10px] uppercase tracking-wider text-white/60">
                 Support Access
               </div>
             </div>
             <div>
-              <div className="text-3xl font-bold mb-1">4.9/5</div>
+              <div className="text-3xl font-bold mb-1">
+                <CountUp to={18.9} suffix="/5" decimals={1} />
+              </div>
               <div className="text-[10px] uppercase tracking-wider text-white/60">
                 Member Satisfaction
               </div>
@@ -296,7 +328,7 @@ export default function Business() {
           <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col lg:flex-row gap-16 items-center">
             <div className="w-full lg:w-1/2 relative">
               <img
-                className="rounded-xl shadow-lg w-full h-[460px] object-cover relative z-10"
+                className="rounded-xl shadow-lg w-full h-[460px] object-cover relative z-10 late"
                 alt="Corporate Relationship Management portrait profile"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0MrNNhuWlHn39d8SHcZjBzj9wJNhF68EajBeoo-WcUyf9euGeIQ-tKUdSMfbYHYQ9GpqoK7zG7hn9qwETirSHclSNpvEs_fv3KHRN_wBKVjtlRm9o9FhXfZGuaTfrBXMW2MXGp5ZCnAPZ8yXFc18dvZ6ujBAUVfYZbIBHzlk2Y4C6T_mejHxmHMFPnpGDE-5rerKaySbFrFr6l8jdGA8tPws2ZmahdXbmT4Bf7d4NaUZxiL17ouNk56HGfK2m-kGHR2N9Y8iljsU"
               />
@@ -396,12 +428,18 @@ export default function Business() {
               with Credit Union. Setup is quick and entirely digital.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#00516f] px-8 py-3.5 rounded text-xs font-bold hover:bg-[#f8fafb] transition-colors shadow-md">
+              <Link
+                to="/contact"
+                className="bg-white text-[#00516f] px-8 py-3.5 rounded text-xs font-bold hover:bg-[#f8fafb] transition-colors shadow-md"
+              >
                 Start Application
-              </button>
-              <button className="bg-transparent border border-white/20 text-white px-8 py-3.5 rounded text-xs font-bold hover:bg-white/10 transition-colors">
+              </Link>
+              <Link
+                to={"/about"}
+                className="bg-transparent border border-white/20 text-white px-8 py-3.5 rounded text-xs font-bold hover:bg-white/10 transition-colors"
+              >
                 View All Services
-              </button>
+              </Link>
             </div>
           </div>
         </section>

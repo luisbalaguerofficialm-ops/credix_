@@ -4,6 +4,7 @@ import { Building2, User, Lock, Eye, ArrowRight } from "lucide-react";
 import axiosClient from "../util/axiosClient";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollReveal from "scrollreveal";
 
 // Import all hero images
 import hero1 from "../assets/hero.webp";
@@ -69,6 +70,16 @@ const Herosection = () => {
     return () => clearInterval(interval); // Cleanup on unmount
   }, [images.length]);
 
+  useEffect(() => {
+    ScrollReveal().reveal(".login", {
+      duration: 4000,
+      origin: "bottom",
+      distance: "50px",
+      delay: 3000,
+      reset: true,
+    });
+  }, []);
+
   return (
     <>
       <section
@@ -106,7 +117,7 @@ const Herosection = () => {
         </div>
 
         {/* LOGIN CARD */}
-        <div className="absolute z-20 right-6 xl:right-20 bottom-[-32.5 w-full max-w-107.5 hidden lg:block">
+        <div className="absolute z-20 right-5 xl:right-18 bottom-[-130px] w-full max-w-[430px] hidden lg:block login">
           <div className="bg-white rounded-2xl shadow-2xl border border-gray-200 p-8">
             {/* Header */}
             <div className="text-center mb-8">

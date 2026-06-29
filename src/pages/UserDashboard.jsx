@@ -23,6 +23,7 @@ import { io } from "socket.io-client";
 import axiosClient from "../util/axiosClient";
 
 export default function UserDashboard() {
+  const navigate = useNavigate();
   const socketRef = useRef(null);
 
   const [loading, setLoading] = useState(true);
@@ -35,9 +36,14 @@ export default function UserDashboard() {
   const [notifications, setNotifications] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [choosedAccount, setChoosedAccount] = useState("");
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
 
-  const navigate = useNavigate();
+  const profileRef = useRef(null);
+  const notificationRef = useRef(null);
 
+  // const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const unreadCount = notifications.length;
   /* ================= FETCH DASHBOARD ================= */
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -95,10 +101,34 @@ export default function UserDashboard() {
       }
     });
 
+    socketRef.current.on("newNotification", (notification) => {
+      setNotifications((prev) => [notification, ...prev]);
+    });
+
     return () => {
       socketRef.current?.disconnect();
     };
   }, [user]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (profileRef.current && !profileRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
+      }
+
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(e.target)
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   //greeting
   const getGreeting = () => {
@@ -136,28 +166,110 @@ export default function UserDashboard() {
   return (
     <div className="bg-[#f4f9fc] text-[#001e2b] min-h-screen flex flex-col font-sans">
       {/* --- Top Navigation Header --- */}
-      <header className="bg-white border-b border-[#e1e9ef] px-8 py-4 flex items-center justify-between">
+      <header className="bg-white border-b border-[#e1e9ef] px-1 py-4 flex items-center justify-between">
         <h1 className="text-xl font-semibold text-[#004b6e]">
           {getGreeting()}, {user?.fullName}
         </h1>
-        <div className="flex items-center gap-6">
-          <button className="relative text-gray-600 hover:text-[#004b6e] flex items-center">
-            <Bell className="w-6 h-6" />
-            <span className="absolute top-1 right-1 w-2 h-2 bg-[#d14343] rounded-full"></span>
-          </button>
-          <button className="text-gray-600 hover:text-[#004b6e] flex items-center">
-            <User className="w-6 h-6" />
-          </button>
+        <div className="flex items-center gap-5">
+          {/* Notification */}
+          <div className="relative" ref={notificationRef}>
+            <button
+              onClick={() => setShowNotifications(!showNotifications)}
+              onMouseEnter={() => setShowNotifications(true)}
+              className="relative text-gray-600 hover:text-[#004b6e]"
+            >
+              <Bell className="w-6 h-6" />
+
+              {unreadCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] rounded-full min-w-[18px] h-[18px] flex items-center justify-center font-bold">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            {showNotifications && (
+              <div className="absolute right-0 mt-3 w-96 bg-white rounded-xl shadow-xl border z-50">
+                <div className="p-4 border-b border-gray-300 flex justify-between items-center">
+                  <h3 className="font-semibold">Notifications</h3>
+
+                  <button
+                    onClick={() => navigate("/notification-center")}
+                    className="text-[#004b6e] text-sm"
+                  >
+                    View All
+                  </button>
+                </div>
+
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.length === 0 ? (
+                    <p className="p-6 text-center text-gray-500">
+                      No notifications
+                    </p>
+                  ) : (
+                    notifications.slice(0, 5).map((n) => (
+                      <div
+                        key={n._id}
+                        onClick={() => navigate("/all-notifications")}
+                        className="p-4 text-left hover:bg-gray-50 cursor-pointer border-b border-gray-200"
+                      >
+                        <p className="font-semibold text-[#004b6e]">
+                          {n.title}
+                        </p>
+
+                        <p className="text-sm text-gray-500">{n.message}</p>
+
+                        <span className="text-xs text-gray-400">{n.date}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* User */}
+          <div className="relative" ref={profileRef}>
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="text-gray-600 hover:text-[#004b6e]"
+            >
+              <User className="w-6 h-6" />
+            </button>
+
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-xl border border-gray-200 z-50">
+                <button
+                  onClick={() => navigate("/profile-settings")}
+                  className="w-full px-4 py-3 text-left hover:bg-gray-50"
+                >
+                  Settings&Profile
+                </button>
+
+                <hr className="border-gray-300" />
+
+                <button
+                  onClick={() => {
+                    localStorage.clear();
+                    navigate("/login");
+                  }}
+                  className="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
+
           <img
             src={user?.profileImage ? user.profileImage : "/default-avatar.png"}
             alt="User"
-            className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-gray-200 transition"
+            className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md ring-2 ring-gray-200"
           />
         </div>
       </header>
 
       {/* --- Main Dashboard Body --- */}
-      <main className="flex-1 px-8 py-8 max-w-7xl mx-auto w-full space-y-8">
+      <main className="flex-1 px-1 py-8 max-w-7xl mx-auto w-full space-y-8">
         {/* Section 1: Account Overview Cards */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Total Balance Card */}

@@ -36,7 +36,7 @@ export default function Navbar() {
             <NavLink to="/personal" className={linkClass}>
               Personal Banking
             </NavLink>
-            <NavLink to="/about-us" className={linkClass}>
+            <NavLink to="/about" className={linkClass}>
               About Us
             </NavLink>
             <NavLink to="/loans" className={linkClass}>
@@ -60,23 +60,23 @@ export default function Navbar() {
         {open && (
           <div className="md:hidden bg-white shadow-lg px-6 py-6 space-y-2">
             <NavLink
-              to="/tracking"
+              to="/business"
               onClick={() => setOpen(false)}
               className={linkClass}
             >
-              Track Parcel
+              Business
             </NavLink>
 
             <NavLink
-              to="/services"
+              to="/personal"
               onClick={() => setOpen(false)}
               className={linkClass}
             >
-              Services
+              Personal Banking
             </NavLink>
 
             <NavLink
-              to="/about-us"
+              to="/about"
               onClick={() => setOpen(false)}
               className={linkClass}
             >
@@ -84,19 +84,34 @@ export default function Navbar() {
             </NavLink>
 
             <NavLink
-              to="/global-network"
+              to="/loans"
               onClick={() => setOpen(false)}
               className={linkClass}
             >
-              Global Network
+              Loans & Credit
             </NavLink>
 
             <NavLink
-              to="/contact-us"
+              to="/credit-card"
+              onClick={() => setOpen(false)}
+              className={linkClass}
+            >
+              Credit & Debit Cards
+            </NavLink>
+
+            <NavLink
+              to="/contact"
               onClick={() => setOpen(false)}
               className="block bg-[#001736] text-white text-center px-6 py-3 rounded-lg font-bold mt-4"
             >
               Contact Us
+            </NavLink>
+            <NavLink
+              to="/login"
+              onClick={() => setOpen(false)}
+              className="block bg-[#001736] text-white text-center px-6 py-3 rounded-lg font-bold mt-4"
+            >
+              Sign in
             </NavLink>
           </div>
         )}
