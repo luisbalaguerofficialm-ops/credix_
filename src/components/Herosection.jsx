@@ -167,12 +167,13 @@ const Herosection = () => {
                 <div className="flex justify-between mb-2">
                   <label className="text-sm font-medium">Password</label>
 
-                  <button
+                  <Link
+                    to="/forgot-password"
                     type="button"
                     className="text-[#006A91] text-sm hover:underline"
                   >
                     Forgot Password?
-                  </button>
+                  </Link>
                 </div>
 
                 <input

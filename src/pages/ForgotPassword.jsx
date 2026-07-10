@@ -99,7 +99,7 @@ const ResetPass = () => {
         <p className="font-medium text-[18px] text-[#595A5B] leading-10 text-center">
           {token
             ? "Enter your new password below."
-            : "Enter your email here and we will send you a link to reset your password .."}
+            : "Enter the email associated with your account and we will send you a link to reset your password .."}
         </p>
       </div>
 

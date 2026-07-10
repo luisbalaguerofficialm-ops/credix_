@@ -54,32 +54,6 @@ export default function NewAccountThird() {
   };
   return (
     <div className="min-h-screen bg-[#eef5f8] text-[#001f29]">
-      {/* Top Utility Bar */}
-      <div className="bg-[#1f4958] h-7">
-        <div className="max-w-[1400px] mx-auto px-6 h-full flex items-center justify-end gap-8 text-white text-xs">
-          <span>Member NCUA</span>
-          <span>Equal Housing Lender</span>
-        </div>
-      </div>
-
-      {/* Header */}
-      <header className="bg-white border-b border-[#d6dde1]">
-        <div className="max-w-[1400px] mx-auto h-16 px-6 flex items-center justify-between">
-          <h1 className="text-[22px] font-bold text-[#004b75]">
-            Meridian Credit Union
-          </h1>
-
-          <div className="flex items-center gap-10">
-            <button className="text-[#40484e]">Accounts</button>
-            <button className="text-[#40484e]">Support</button>
-
-            <Bell size={20} className="cursor-pointer text-[#40484e]" />
-
-            <UserCircle size={24} className="cursor-pointer text-[#40484e]" />
-          </div>
-        </div>
-      </header>
-
       {/* Main */}
       <main className="max-w-[1400px] mx-auto px-6 py-12">
         {/* STEPPER */}

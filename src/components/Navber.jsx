@@ -23,7 +23,7 @@ export default function Navbar() {
             <NavLink to="/" className="flex items-center gap-2">
               <Logo />
               <span className="truncate max-w-[140px] md:max-w-none">
-                Credit Union
+              America Bank
               </span>
             </NavLink>
           </div>

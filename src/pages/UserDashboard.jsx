@@ -38,6 +38,10 @@ export default function UserDashboard() {
   const [choosedAccount, setChoosedAccount] = useState("");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [analyticsTimeframe, setAnalyticsTimeframe] = useState("30days");
+  const [analyticsData, setAnalyticsData] = useState([]);
 
   const profileRef = useRef(null);
   const notificationRef = useRef(null);
@@ -55,7 +59,9 @@ export default function UserDashboard() {
     const fetchDashboard = async () => {
       try {
         // 1️⃣ Dashboard (wallet + tx + notifications)
-        const dashboardRes = await axiosClient.get("/api/users/dashboard");
+        const dashboardRes = await axiosClient.get(
+          `/api/users/dashboard?timeframe=${analyticsTimeframe}`,
+        );
         const dashboard = dashboardRes.data;
 
         setBalance(dashboard.balance || 0);
@@ -64,6 +70,7 @@ export default function UserDashboard() {
         setChoosedAccount(dashboard.choosedAccount || "");
         setTransactions(dashboard.transactions || []);
         setNotifications(dashboard.notifications || []);
+        setAnalyticsData(dashboard.analytics || []);
 
         // 2️⃣ User profile (name, kyc, id)
         const profileRes = await axiosClient.get("/api/users/profile");
@@ -79,13 +86,29 @@ export default function UserDashboard() {
     fetchDashboard();
   }, [navigate]);
 
+  useEffect(() => {
+    if (user?._id) {
+      const updateAnalytics = async () => {
+        try {
+          const res = await axiosClient.get(
+            `/api/users/dashboard?timeframe=${analyticsTimeframe}`,
+          );
+          setAnalyticsData(res.data.analytics || []);
+        } catch (err) {
+          console.error("Failed updating metrics context:", err);
+        }
+      };
+      updateAnalytics();
+    }
+  }, [analyticsTimeframe]);
+
   /* ================= SOCKET.IO ================= */
   useEffect(() => {
     if (!user?._id) return;
 
     const token = localStorage.getItem("accessToken");
 
-    socketRef.current = io("https://credit-union-backend-1.onrender.com", {
+    socketRef.current = io("https://api.credixa.co", {
       auth: { token },
       transports: ["websocket"],
     });
@@ -158,6 +181,30 @@ export default function UserDashboard() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+
+      await axiosClient.post("/api/auth/logout");
+
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
+      sessionStorage.clear();
+
+      toast.success("Logged out successfully.");
+
+      navigate("/login", { replace: true });
+    } catch (err) {
+      toast.error("Failed to logout.");
+    } finally {
+      setLoggingOut(false);
+      setShowLogoutModal(false);
+    }
+  };
+  const handelViewNotification = () => {
+    navigate("/notification-center");
+  };
+
   const normalizedAccount = (choosedAccount || "").trim().toLowerCase();
 
   const isChecking = normalizedAccount === "essential checking";
@@ -209,7 +256,7 @@ export default function UserDashboard() {
                     notifications.slice(0, 5).map((n) => (
                       <div
                         key={n._id}
-                        onClick={() => navigate("/all-notifications")}
+                        // onClick={() => navigate("/notification-center")}
                         className="p-4 text-left hover:bg-gray-50 cursor-pointer border-b border-gray-200"
                       >
                         <p className="font-semibold text-[#004b6e]">
@@ -248,10 +295,7 @@ export default function UserDashboard() {
                 <hr className="border-gray-300" />
 
                 <button
-                  onClick={() => {
-                    localStorage.clear();
-                    navigate("/login");
-                  }}
+                  onClick={() => setShowLogoutModal(true)}
                   className="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50"
                 >
                   Logout
@@ -458,7 +502,7 @@ export default function UserDashboard() {
         </section>
 
         {/* Layout Partition: Left Content and Right Widget Column */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-left">
           {/* Left Block Area: Transactions and Analytics */}
           <div className="lg:col-span-2 space-y-8">
             {/* Recent Transactions Module */}
@@ -481,14 +525,14 @@ export default function UserDashboard() {
                     No transactions yet.
                   </p>
                 ) : (
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full border-collapse">
                     <thead>
                       <tr className="bg-[#f0f7fc] text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-[#e1e9ef]">
                         <th className="px-6 py-3">Type</th>
                         <th className="px-6 py-3">Description</th>
                         <th className="px-6 py-3">status</th>
+                        <th className="px-6 py-3">Amount</th>
                         <th className="px-6 py-3">Date</th>
-                        <th className="px-6 py-3 text-right">Amount</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#f0f4f8]">
@@ -525,13 +569,13 @@ export default function UserDashboard() {
                             >
                               {tx.status}
                             </td>
-                            <td className="px-6 py-4 text-[#004e69]">
-                              {tx.date}
-                            </td>
                             <td
-                              className={`px-6 py-4 text-right font-semibold ${tx.isNegative ? "text-[#001e2b]" : "text-[#4b8a02]"}`}
+                              className={`px-6 test-left py-4  font-semibold ${tx.isNegative ? "text-[#001e2b]" : "text-[#4b8a02]"}`}
                             >
                               {tx.amount}
+                            </td>
+                            <td className="px-6 py-4 text-[#004e69]">
+                              {tx.date}
                             </td>
                           </tr>
                         );
@@ -548,26 +592,47 @@ export default function UserDashboard() {
                 <h3 className="font-bold text-base text-[#001e2b]">
                   Spending Analytics
                 </h3>
-                <select className="bg-[#f0f7fc] text-xs font-medium text-gray-600 border border-[#d2e4f0] rounded-md py-1.5 px-3 focus:outline-none focus:ring-1 focus:ring-[#005a78]">
-                  <option>Last 30 Days</option>
-                  <option>Last 3 Months</option>
+                <select
+                  value={analyticsTimeframe}
+                  onChange={(e) => setAnalyticsTimeframe(e.target.value)}
+                  className="bg-[#f0f7fc] text-xs font-medium text-gray-600 border border-[#d2e4f0] rounded-md py-1.5 px-3 focus:outline-none focus:ring-1 focus:ring-[#005a78]"
+                >
+                  <option>Last 1 week</option>
+                  <option>Last 1 Months</option>
                 </select>
               </div>
               {/* Graphic Chart Container */}
               <div className="h-44 flex items-end gap-3 pt-4 px-2 border-b border-gray-100">
-                <div className="flex-1 bg-[#d5edf7] rounded-t-sm h-[35%] hover:bg-[#005a78] transition-colors cursor-pointer"></div>
-                <div className="flex-1 bg-[#d5edf7] rounded-t-sm h-[55%] hover:bg-[#005a78] transition-colors cursor-pointer"></div>
-                <div className="flex-1 bg-[#004e69] rounded-t-sm h-[85%] cursor-pointer"></div>
-                <div className="flex-1 bg-[#d5edf7] rounded-t-sm h-[25%] hover:bg-[#005a78] transition-colors cursor-pointer"></div>
-                <div className="flex-1 bg-[#d5edf7] rounded-t-sm h-[48%] hover:bg-[#005a78] transition-colors cursor-pointer"></div>
-                <div className="flex-1 bg-[#d5edf7] rounded-t-sm h-[40%] hover:bg-[#005a78] transition-colors cursor-pointer"></div>
-                <div className="flex-1 bg-[#d5edf7] rounded-t-sm h-[70%] hover:bg-[#005a78] transition-colors cursor-pointer"></div>
+                {analyticsData.length === 0 ? (
+                  <div className="w-full text-center text-xs text-gray-400 pb-16">
+                    No spending activity recorded
+                  </div>
+                ) : (
+                  analyticsData.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="flex-1 bg-[#d5edf7] rounded-t-sm hover:bg-[#005a78] transition-all duration-300 cursor-pointer relative group"
+                      style={{ height: `${item.percentage}%` }}
+                      title={`${item.label}: ${currency}${item.amount.toLocaleString()}`}
+                    >
+                      {/* Tooltip on hover */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
+                        {currency}
+                        {item.amount.toLocaleString()}
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
               <div className="flex justify-between mt-3 text-xs text-gray-400 font-medium px-1">
-                <span>Week 1</span>
-                <span>Week 2</span>
-                <span>Week 3</span>
-                <span>Week 4</span>
+                {analyticsData.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="flex-1 text-center first:text-left last:text-right"
+                  >
+                    {item.label}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -592,9 +657,17 @@ export default function UserDashboard() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-[#004e69] font-bold text-sm">
-                  Notifications
-                </h3>
+                <div className="flex gap-42">
+                  <h3 className="text-[#004e69] font-bold text-sm">
+                    Notifications
+                  </h3>
+                  <button
+                    onClick={handelViewNotification}
+                    className="text-[#004e69] font-bold text-sm hover:underline"
+                  >
+                    View All
+                  </button>
+                </div>
               </div>
               {notifications.length === 0 ? (
                 <p className="bg-[#004e69] text-white rounded-lg h-12 items-center p-3">
@@ -667,7 +740,7 @@ export default function UserDashboard() {
           <div className="text-center md:text-left space-y-1">
             <span className="text-sm font-bold tracking-wide">Meridian</span>
             <p className="text-gray-400">
-              © 2026 Credit Union. Member NCUA. Equal Housing Lender.
+              ©America Bank. Member NCUA. Equal Housing Lender.
             </p>
           </div>
           <div className="flex gap-5 text-gray-300">
@@ -689,6 +762,56 @@ export default function UserDashboard() {
           </div>
         </div>
       </footer>
+      {showLogoutModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="flex justify-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+                <svg
+                  className="h-8 w-8 text-red-600"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 8H5a2 2 0 01-2-2V6a2 2 0 012-2h8"
+                  />
+                </svg>
+              </div>
+            </div>
+
+            <h2 className="mt-5 text-center text-2xl font-bold text-[#001F2A]">
+              Log Out?
+            </h2>
+
+            <p className="mt-3 text-center text-sm text-gray-600">
+              Are you sure you want to log out of your account? You will need to
+              sign in again to access your banking dashboard.
+            </p>
+
+            <div className="mt-8 flex gap-3">
+              <button
+                onClick={() => setShowLogoutModal(false)}
+                disabled={loggingOut}
+                className="flex-1 rounded-xl border border-gray-300 bg-white py-3 font-semibold text-gray-700 hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="flex-1 rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700 disabled:opacity-60"
+              >
+                {loggingOut ? "Logging Out..." : "Log Out"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

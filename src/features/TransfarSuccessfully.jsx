@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-
-import { IDLE_FETCHER, useParams } from "react-router-dom";
+import { CheckCircle2 } from "lucide-react";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../util/axiosClient";
 
 export default function TransferSuccessfully() {
+  const navigate = useNavigate();
   const { transactionId } = useParams();
 
   const [transaction, setTransaction] = useState(null);
@@ -11,28 +12,42 @@ export default function TransferSuccessfully() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fectchTransaction = async () => {
-      try {
-        const res = await axiosClient.get(`/api/transactions/${transactionId}`);
+    if (!transactionId) {
+      navigate("/user-dashboard");
+      return;
+    }
 
-        if (res.data.success) {
-          setTransaction(res.data.transactionId);
-        } else {
-          setError("Transaction not found");
+    const fetchTransaction = async () => {
+      try {
+        const res = await axiosClient.get(
+          `/api/transactions/${data.transaction._id}`,
+        );
+
+        if (!res.data.success) {
+          throw new Error(res.data.message || "Transaction not found");
         }
+
+        setTransaction(res.data.transaction);
       } catch (error) {
-        console.log(error);
-        setError(error.response?.data?.messsage || error.messsage);
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Failed to load transaction",
+        );
       } finally {
         setLoading(false);
       }
     };
-    fectchTransaction()[transactionId];
-  });
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText("MCU-77291-TX-0092");
-    alert("Transaction ID copied to clipboard!");
+    fetchTransaction();
+  }, [transactionId, navigate]);
+
+  const handleBackToDashboard = () => {
+    navigate("/user-dashboard");
+  };
+
+  const handleAnotherTransfer = () => {
+    navigate("/first-step-transfer");
   };
 
   return (
@@ -42,12 +57,9 @@ export default function TransferSuccessfully() {
         <div className="max-w-2xl w-full bg-white rounded-xl border border-[#bfc8cf]/60 p-6 md:p-12 text-center shadow-sm">
           {/* */}
           <div className="mb-8 flex flex-col items-center">
-            <div className="inline-flex items-center justify-center w-22 h-19 rounded-full bg-[#c6ed7e] mb-6">
-              <span
-                className="material-symbols-outlined text-4xl text-[#3b6600]"
-                style={{ fontVariationSettings: "'wght' 700" }}
-              >
-                check
+            <div className="inline-flex items-center justify-center w-20 h-19 rounded-full bg-[#c6ed7e] mb-6">
+              <span className="text-2xl text-[#3b6600]">
+                <CheckCircle2 className="w-10 h-11 rounded-md" />
               </span>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold text-[#001f29] mb-2">
@@ -60,7 +72,7 @@ export default function TransferSuccessfully() {
 
           {/* */}
           <div className="bg-[#f4f4f4]/60 rounded-xl border border-[#bfc8cf]/30 p-5 md:p-8 text-left mb-8">
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-4">
               {/* */}
               <div className="border-b border-[#bfc8cf] pb-5 mb-1 flex justify-between items-end">
                 <div>
@@ -68,56 +80,58 @@ export default function TransferSuccessfully() {
                     Total Amount
                   </span>
                   <span className="text-3xl md:text-4xl font-bold text-[#00516f]">
-                    {transaction.amount.toLocalString()}
+                    {`$${Number(transaction?.amount || 0).toLocaleString()}`}
                   </span>
                 </div>
-                <span className="bg-[#c8f0c2] text-[#0e230a] px-3 py-1 rounded-full text-xs font-semibold mb-1">
-                  {transaction.status}
+                <span className="bg-[#ebf0c2] text-[#0e230a] px-3 py-1 rounded-full text-xs font-semibold mb-1">
+                  {transaction?.status}
                 </span>
               </div>
 
               {/* */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-5 gap-x-8">
-                <div>
+              <div className="flex flex-col gap-6 text-medium text-[#001f29]">
+                <div className=" flex justify-between">
                   <span className="text-xs text-[#40484e] block mb-0.5">
                     Recipient Name
                   </span>
                   <span className="text-sm text-[#001f29] font-semibold">
-                    {transaction.recipientName}
+                    {transaction?.recipientName}
                   </span>
                 </div>
-                <div>
+                <div className="flex justify-between">
                   <span className="text-xs text-[#40484e] block mb-0.5">
                     Account Number
                   </span>
                   <span className="text-sm text-[#001f29] font-semibold">
-                    {transaction.accountNumber}
+                    {transaction?.accountNumber}
                   </span>
                 </div>
-                <div>
+                <div className="flex justify-between">
                   <span className="text-xs text-[#40484e] block mb-0.5">
                     Bank
                   </span>
                   <span className="text-sm text-[#001f29] font-semibold">
-                    {transaction.bankName}
+                    {transaction?.bankName}
                   </span>
                 </div>
-                <div>
+                <div className="flex justify-between">
+                  <span className="text-xs text-[#40484e] block mb-0.5">
+                    Narration
+                  </span>
+                  <span className="text-sm text-[#001f29] font-semibold">
+                    {transaction?.description}
+                  </span>
+                </div>
+                <div className="flex justify-between">
                   <span className="text-xs text-[#40484e] block mb-0.5">
                     Date &amp; Time
                   </span>
                   <span className="text-sm text-[#001f29] font-semibold">
-                    {new Date(transaction.createdAt).toLocaleString()}
+                    {transaction?.createdAt &&
+                      new Date(transaction.createdAt).toLocaleString()}
                   </span>
                 </div>
-                <div className="md:col-span-2">
-                  <span className="text-xs text-[#40484e] block mb-0.5">
-                    Narration
-                  </span>
-                  <span className="text-sm text-[#001f29] font-semibold italic">
-                    {transaction.description}
-                  </span>
-                </div>
+
                 <div className="md:col-span-2 flex items-center justify-between bg-white border border-[#bfc8cf]/40 p-4 rounded-lg shadow-sm">
                   <div>
                     <span className="text-xs text-[#40484e] block mb-0.5">
@@ -127,15 +141,6 @@ export default function TransferSuccessfully() {
                       MCU-77291-TX-0092
                     </span>
                   </div>
-                  <button
-                    className="flex items-center gap-1.5 text-[#006a91] text-xs font-semibold hover:underline transition-all"
-                    onClick={copyToClipboard}
-                  >
-                    <span className="material-symbols-outlined text-base">
-                      content_copy
-                    </span>
-                    Copy
-                  </button>
                 </div>
               </div>
             </div>
@@ -165,39 +170,21 @@ export default function TransferSuccessfully() {
 
           {/* */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-[#00516f] text-white font-semibold text-sm py-3.5 px-8 rounded-xl hover:opacity-90 transition-all shadow-sm">
+            <button
+              onClick={handleBackToDashboard}
+              className="bg-[#00516f] text-white font-semibold text-sm py-3.5 px-8 rounded-xl hover:opacity-90 transition-all shadow-sm"
+            >
               Back to Dashboard
             </button>
-            <button className="bg-white border border-[#bfc8cf] text-[#00516f] font-semibold text-sm py-3.5 px-8 rounded-xl hover:bg-[#e5f6ff] transition-all">
-              Download Receipt
+            <button
+              onClick={handleAnotherTransfer}
+              className="bg-white border border-[#bfc8cf] text-[#00516f] font-semibold text-sm py-3.5 px-8 rounded-xl hover:bg-[#e5f6ff] transition-all"
+            >
+              Make Another Transfer
             </button>
           </div>
         </div>
       </main>
-
-      {/* */}
-      <footer className="bg-[#1a3540] w-full mt-auto text-white py-8 border-t border-white/10">
-        <div className="w-full px-6 md:px-12 max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-lg font-bold">Meridian Credit Union</div>
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs text-white/80">
-            <a className="hover:text-white transition-colors" href="#">
-              Privacy Policy
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Security
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Terms of Service
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Legal Disclosures
-            </a>
-          </div>
-          <p className="text-xs text-white/60 text-center md:text-right">
-            © 2026 Credit Union. Member NCUA. Equal Housing Lender.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

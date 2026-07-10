@@ -75,7 +75,7 @@ export default function NewAccountSecond() {
 
   // HNADLE BACK BUTTON
   const handleBack = () => {
-    navigate("/new-account");
+    navigate(-1); // Navigate back to the previous page
   };
   const usStates = State.getStatesOfCountry("US");
   const cities = formData.state
@@ -88,7 +88,7 @@ export default function NewAccountSecond() {
         <div className="max-w-[1400px] mx-auto h-full px-6 flex items-center justify-between">
           <div className="flex items-center gap-1">
             <h1 className="text-[20px] font-bold text-[#00516f]">
-              Credit Union
+            America Bank
             </h1>
           </div>
           <button className="flex items-center gap-2 text-[#40484e] hover:text-[#00516f] transition">

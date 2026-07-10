@@ -8,59 +8,64 @@ import {
   Info,
   Save,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axiosClient from "../util/axiosClient";
 
 export default function ChangeTransactionPin() {
   const navigate = useNavigate();
-  const handleTransactionPinChange = () => {
-    navigate("/transaction-pin-updated");
-  };
 
   const [currentPin, setCurrentPin] = useState("");
   const [newPin, setNewPin] = useState("");
   const [confirmPin, setConfirmPin] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!currentPin || !newPin || !confirmPin) {
+      return toast.error("Please fill in all fields.");
+    }
+
     if (newPin !== confirmPin) {
-      alert("New PIN and Confirmation PIN do not match!");
-      return;
+      return toast.error("New PIN and Confirmation PIN do not match.");
     }
-    if (newPin.length < 6) {
-      alert("PIN must be exactly 6 digits.");
-      return;
+
+    if (!/^\d{4}$/.test(newPin)) {
+      return toast.error("PIN must be exactly 4 digits.");
     }
-    // Process PIN modification dispatch hooks safely here
+
+    try {
+      setLoading(true);
+
+      const { data } = await axiosClient.put("/api/users/change-pin", {
+        currentPin,
+        newPin,
+        confirmPin,
+      });
+
+      toast.success(data.message);
+
+      setCurrentPin("");
+      setNewPin("");
+      setConfirmPin("");
+
+      navigate("/transaction-pin-updated");
+    } catch (err) {
+      toast.error(
+        err.response?.data?.message || "Failed to update transaction PIN.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBack = () => {
+    navigate(-1); // Navigate back to the previous page
   };
 
   return (
-    <div className="bg-[#f3faff] text-[#001f29] min-h-screen flex flex-col font-sans antialiased pt-16">
-      {/* --- TopAppBar Navigation --- */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-[#c2cbd4] shadow-sm z-50">
-        <div className="flex justify-between items-center h-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center">
-            <button
-              type="button"
-              className="flex items-center gap-1.5 text-sm font-semibold text-[#00516f] hover:text-[#003b54] transition-all group"
-              aria-label="Back to Settings"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-              <span>Settings</span>
-            </button>
-            <div className="h-5 w-px bg-[#bfc8cf] mx-4" />
-            <span className="text-xl font-bold text-[#00516f] tracking-tight">
-              Lumina Bank
-            </span>
-          </div>
-          <button
-            type="button"
-            className="text-[#6c757d] hover:text-[#00516f] p-2 rounded-full transition-colors"
-          >
-            <HelpCircle className="w-5 h-5" />
-          </button>
-        </div>
-      </header>
-
+    <div className="bg-[#f3faff] text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
       {/* --- Main Content Canvas --- */}
       <main className="grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl w-full">
@@ -88,7 +93,7 @@ export default function ChangeTransactionPin() {
                   className="block text-sm font-bold text-[#40484e]"
                   htmlFor="current-pin"
                 >
-                  Current 6-Digit PIN
+                  Current 4-Digit PIN
                 </label>
                 <div className="relative">
                   <input
@@ -105,14 +110,16 @@ export default function ChangeTransactionPin() {
                     className="w-full h-12 px-4 border border-[#a0aab2] rounded-xl focus:ring-1 focus:ring-[#00516f] focus:border-[#00516f] outline-none transition-all text-center text-xl font-bold tracking-[0.5em] bg-white placeholder:tracking-normal placeholder:font-normal"
                     required
                   />
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                    <a
-                      href="#"
-                      className="text-xs font-bold text-[#00516f] hover:underline whitespace-nowrap"
-                    >
-                      Forgot PIN?
-                    </a>
-                  </div>
+                </div>
+                <div className="justify-end text-right pt-1">
+                  <Link
+                    to="/Send-Transaction-Pin-Otp"
+                    type="button"
+                    href="#"
+                    className="text-xs font-bold text-[#00516f] hover:underline whitespace-nowrap"
+                  >
+                    Forgot PIN?
+                  </Link>
                 </div>
               </div>
 
@@ -180,16 +187,17 @@ export default function ChangeTransactionPin() {
               {/* Dynamic Action Interaction Blocks */}
               <div className="space-y-2.5 pt-2">
                 <button
-                  onClick={handleTransactionPinChange}
                   type="submit"
+                  disabled={loading}
                   className="w-full h-12 bg-[#00516f] hover:bg-[#003b54] text-white font-semibold text-sm rounded-xl transition-all active:scale-[0.99] shadow-sm flex items-center justify-center gap-2"
                 >
                   <Save className="w-4 h-4" />
-                  <span>Save Changes</span>
+                  <span>{loading ? "Updating..." : "Save Changes"}</span>
                 </button>
                 <button
+                  onClick={handleBack}
                   type="button"
-                  className="w-full h-12 bg-transparent text-[#00516f] font-semibold text-sm rounded-xl hover:bg-[#e6f4fa] transition-colors"
+                  className="w-full h-12 border border-[#00516f] bg-transparent text-[#00516f] font-semibold text-sm rounded-xl hover:bg-[#e6f4fa] transition-colors"
                 >
                   Cancel
                 </button>
@@ -224,11 +232,8 @@ export default function ChangeTransactionPin() {
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs">
           <div className="text-center md:text-left space-y-1">
             <span className="text-base font-bold text-white tracking-tight block">
-              Lumina Bank
+              Credit union. Member FDIC. Equal Housing Lender.
             </span>
-            <p className="text-[#708590]">
-              © 2026 Lumina Financial Group. Member FDIC. Equal Housing Lender.
-            </p>
           </div>
           <nav className="flex flex-wrap justify-center gap-x-6 gap-y-2">
             <a className="hover:text-white transition-colors" href="#">

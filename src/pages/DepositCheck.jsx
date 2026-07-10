@@ -1,49 +1,116 @@
-import React from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import React, { useEffect, useState, useRef } from "react";
+import axiosClient from "../util/axiosClient";
 
 export default function DepositCheck() {
+  const frontRef = useRef();
+  const backRef = useRef();
+  const [form, setForm] = useState({
+    amount: "",
+    accountNumber: "",
+    accountType: "",
+  });
+
+  const [frontImage, setFrontImage] = useState(null);
+  const [backImage, setBackImage] = useState(null);
+  const [deposits, setDeposits] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
+
+  const getDeposits = async () => {
+    try {
+      setFetching(true);
+
+      const { data } = await axiosClient.get("/api/check-deposits");
+
+      setDeposits(data.deposits);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  useEffect(() => {
+    getDeposits();
+  }, []);
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const submitDeposit = async (e) => {
+    e.preventDefault();
+
+    if (!frontImage || !backImage) {
+      return toast.error("Upload both images.");
+    }
+
+    try {
+      if (!form.amount || !form.accountNumber || !form.accountType) {
+        return toast.error("Please complete all fields.");
+      }
+      setLoading(true);
+
+      const formData = new FormData();
+
+      formData.append("amount", form.amount);
+      formData.append("accountNumber", form.accountNumber);
+      formData.append("accountType", form.accountType);
+
+      formData.append("frontImage", frontImage);
+      formData.append("backImage", backImage);
+
+      const { data } = await axiosClient.post("/api/check-deposits", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      toast.success(data.message);
+
+      frontRef.current.value = "";
+      backRef.current.value = "";
+
+      setForm({
+        amount: "",
+        accountNumber: "",
+        accountType: "",
+      });
+
+      setFrontImage(null);
+      setBackImage(null);
+
+      getDeposits();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Unable to submit deposit.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Pending":
+        return "bg-yellow-100 text-yellow-700";
+
+      case "Approved":
+        return "bg-green-100 text-green-700";
+
+      case "Rejected":
+        return "bg-red-100 text-red-700";
+
+      default:
+        return "bg-gray-100 text-gray-700";
+    }
+  };
+
   return (
     <div className="bg-[#F4F9FC] text-[#001F2A] font-sans min-h-screen flex flex-col">
-      {/* Top Header Navigation Line Placeholder (Matches App Global Flow) */}
-      <div className="w-full bg-white border-b border-[#E2E8F0] px-6 py-3 flex justify-between items-center text-sm">
-        <div className="flex items-center gap-6">
-          <span className="font-bold text-[#004B6E] text-lg">
-            Credit Union Internal
-          </span>
-          <nav className="hidden md:flex gap-4 text-[#556370]">
-            <a href="#" className="hover:text-[#004B6E]">
-              Dashboard
-            </a>
-            <a
-              href="#"
-              className="text-[#004B6E] font-semibold border-b-2 border-[#004B6E] pb-3 pt-1"
-            >
-              Accounts
-            </a>
-            <a href="#" className="hover:text-[#004B6E]">
-              Support
-            </a>
-          </nav>
-        </div>
-        <div className="flex items-center gap-4">
-          <svg
-            className="w-5 h-5 text-[#556370]"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.07 6.07 0 00-1-3.5M9 17v1a3 3 0 006 0v-1M9 17H4l1.405-1.405A2.032 2.032 0 005 14.158V11a6.07 6.07 0 011-3.5m7-3.5a3.37 3.37 0 11-6.74 0 3.37 3.37 0 016.74 0zM3 20h18M12 4v1"
-            />
-          </svg>
-          <div className="w-8 h-8 rounded-full bg-[#CBD5E1] overflow-hidden">
-            <div className="w-full h-full bg-[#004B6E]" />
-          </div>
-        </div>
-      </div>
-
       <main className="max-w-[1200px] w-full mx-auto px-6 py-10 flex-grow">
         {/* Page Title */}
         <div className="mb-8">
@@ -65,17 +132,32 @@ export default function DepositCheck() {
                 Enter Deposit Details
               </h2>
 
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <form className="space-y-6" onSubmit={submitDeposit}>
+                <div className="flex gap-6">
                   <div>
                     <label className="block text-[10px] font-bold text-[#556370] uppercase tracking-wider mb-2">
                       Deposit To
                     </label>
                     <div className="relative">
-                      <select className="w-full bg-white border border-[#D1DBE0] rounded-lg p-3.5 text-sm text-[#002230] outline-none appearance-none cursor-pointer pr-10 focus:border-[#004B6E]">
-                        <option>Business Checking (...4829)</option>
-                        <option>Corporate Savings (...1102)</option>
-                        <option>Payroll Reserve (...9934)</option>
+                      <select
+                        name="accountType"
+                        value={form.accountType}
+                        onChange={handleChange}
+                        className="w-full bg-white border border-[#D1DBE0] rounded-lg p-3.5 text-sm text-[#002230] outline-none appearance-none cursor-pointer pr-10 focus:border-[#004B6E]"
+                      >
+                        <option value="">Select Account</option>
+
+                        <option value="Business Checking">
+                          Business Checking (...4829)
+                        </option>
+
+                        <option value="Corporate Savings">
+                          Corporate Savings (...1102)
+                        </option>
+
+                        <option value="Payroll Reserve">
+                          Payroll Reserve (...9934)
+                        </option>
                       </select>
                       <svg
                         className="w-4 h-4 text-[#718096] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
@@ -103,89 +185,114 @@ export default function DepositCheck() {
                       </span>
                       <input
                         className="w-full bg-white border border-[#D1DBE0] rounded-lg py-3.5 pl-8 pr-4 text-sm text-[#002230] outline-none placeholder-[#A0AEC0] focus:border-[#004B6E]"
+                        name="amount"
+                        value={form.amount}
+                        onChange={handleChange}
                         placeholder="0.00"
-                        type="text"
+                        type="number"
                       />
                     </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#556370] uppercase tracking-wider mb-2">
+                      Account Number
+                    </label>
+                    <input
+                      className="w-full bg-white border border-[#D1DBE0] rounded-lg py-3.5 pl-8 pr-4 text-sm text-[#002230] outline-none placeholder-[#A0AEC0] focus:border-[#004B6E]"
+                      name="accountNumber"
+                      value={form.accountNumber}
+                      onChange={handleChange}
+                      placeholder="********"
+                      type="text"
+                    />
                   </div>
                 </div>
 
                 {/* Check Image Uploads */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-                  {/* Front of Check */}
                   <div className="space-y-2">
-                    <span className="text-xs font-bold text-[#556370]">
-                      Front of Check
-                    </span>
-                    <div className="border-2 border-dashed border-[#CBD5E1] bg-white rounded-xl h-44 flex flex-col items-center justify-center cursor-pointer hover:bg-[#F8FAFC] transition-colors p-4 text-center">
-                      <svg
-                        className="w-8 h-8 text-[#004B6E] mb-2"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        viewBox="0 0 24 24"
+                    <div className="border-2 border-dashed border-[#CBD5E1] rounded-xl h-44 overflow-hidden relative">
+                      <input
+                        type="file"
+                        id="frontImage"
+                        accept="image/*"
+                        ref={frontRef}
+                        className="hidden"
+                        onChange={(e) => setFrontImage(e.target.files[0])}
+                      />
+
+                      <label
+                        htmlFor="frontImage"
+                        className="w-full h-full flex items-center justify-center cursor-pointer"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.5 10.5h.008v.008H16.5V10.5z"
-                          strokeWidth="2"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 18.75a3.75 3.75 0 100-7.5 3.75 3.75 0 000 7.5z"
-                        />
-                      </svg>
-                      <span className="text-sm font-bold text-[#002230]">
-                        Click to upload front image
-                      </span>
-                      <p className="text-xs text-[#718096] mt-1 max-w-[200px]">
-                        Ensure all corners are visible and lighting is clear.
-                      </p>
+                        {frontImage ? (
+                          <img
+                            src={URL.createObjectURL(frontImage)}
+                            alt="Front Check"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="text-center px-4">
+                            <span className="font-semibold text-sm text-[#002230]">
+                              Click to upload front image
+                            </span>
+
+                            <p className="text-xs text-[#718096] mt-2">
+                              Ensure all corners are visible and lighting is
+                              clear.
+                            </p>
+                          </div>
+                        )}
+                      </label>
                     </div>
                   </div>
 
                   {/* Back of Check */}
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold text-[#556370]">
-                      Back of Check (Endorsed)
-                    </span>
-                    <div className="border-2 border-dashed border-[#CBD5E1] bg-white rounded-xl h-44 flex flex-col items-center justify-center cursor-pointer hover:bg-[#F8FAFC] transition-colors p-4 text-center">
-                      <svg
-                        className="w-8 h-8 text-[#004B6E] mb-2"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"
+                  <div className="border-2 border-dashed border-[#CBD5E1] rounded-xl h-44 overflow-hidden relative">
+                    <input
+                      type="file"
+                      id="backImage"
+                      accept="image/*"
+                      ref={backRef}
+                      className="hidden"
+                      onChange={(e) => setBackImage(e.target.files[0])}
+                    />
+
+                    <label
+                      htmlFor="backImage"
+                      className="w-full h-full flex items-center justify-center cursor-pointer"
+                    >
+                      {backImage ? (
+                        <img
+                          src={URL.createObjectURL(backImage)}
+                          alt="Back Check"
+                          className="w-full h-full object-cover"
                         />
-                      </svg>
-                      <span className="text-sm font-bold text-[#002230]">
-                        Click to upload back image
-                      </span>
-                      <p className="text-xs text-[#718096] mt-1 max-w-[200px]">
-                        Must be endorsed with "For Mobile Deposit Only".
-                      </p>
-                    </div>
+                      ) : (
+                        <div className="text-center px-4">
+                          <span className="font-semibold text-sm text-[#002230]">
+                            Click to upload back image
+                          </span>
+                          <p className="text-xs text-[#718096] mt-2">
+                            Must be endorsed with "For Mobile Deposit Only".
+                          </p>
+                        </div>
+                      )}
+                    </label>
                   </div>
                 </div>
 
-                <div className="pt-4 flex justify-end">
+                <div className="pt-4 ">
                   <button
-                    className="bg-[#004B6E] text-white font-bold text-sm px-6 py-3 rounded-lg hover:bg-[#003853] transition-colors shadow-sm"
-                    type="submit"
+                    disabled={loading}
+                    className={`px-6 py-3 rounded-lg text-white font-bold ${
+                      loading
+                        ? "bg-gray-400 cursor-not-allowed"
+                        : "bg-[#004B6E] hover:bg-[#003853]"
+                    }`}
                   >
-                    Submit Deposit Request
+                    {loading ? "Submitting..." : "Submit Deposit Request"}
                   </button>
                 </div>
               </form>
@@ -197,9 +304,6 @@ export default function DepositCheck() {
                 <h2 className="text-lg font-bold text-[#004B6E]">
                   Deposit History
                 </h2>
-                <button className="text-[#004B6E] font-bold text-xs flex items-center gap-0.5 hover:underline">
-                  View All <span className="text-base leading-none">›</span>
-                </button>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
@@ -223,102 +327,56 @@ export default function DepositCheck() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#E2E8F0] text-sm text-[#002230]">
-                    <tr className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4">Oct 24, 2023</td>
-                      <td className="px-6 py-4 font-medium text-[#556370]">
-                        ...4829
-                      </td>
-                      <td className="px-6 py-4 font-bold text-[#004B6E]">
-                        $1,250.00
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#E8F8F5] text-[#117864] text-[10px] font-bold border border-[#A3E4D7]">
-                          <span className="w-1 h-1 rounded-full bg-[#117864]"></span>{" "}
-                          Cleared
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <button className="text-[#718096] hover:text-[#004B6E] mx-auto">
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4">Oct 26, 2023</td>
-                      <td className="px-6 py-4 font-medium text-[#556370]">
-                        ...4829
-                      </td>
-                      <td className="px-6 py-4 font-bold text-[#004B6E]">
-                        $450.00
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#EBF5FB] text-[#2980B9] text-[10px] font-bold border border-[#AED6F1]">
-                          <span className="w-1 h-1 rounded-full bg-[#2980B9]"></span>{" "}
-                          Pending
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <button className="text-[#718096] hover:text-[#004B6E] mx-auto">
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr className="hover:bg-slate-50 transition-colors">
-                      <td className="px-6 py-4">Oct 26, 2023</td>
-                      <td className="px-6 py-4 font-medium text-[#556370]">
-                        ...1102
-                      </td>
-                      <td className="px-6 py-4 font-bold text-[#004B6E]">
-                        $2,100.00
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#EBF5FB] text-[#2980B9] text-[10px] font-bold border border-[#AED6F1]">
-                          <span className="w-1 h-1 rounded-full bg-[#2980B9]"></span>{" "}
-                          Pending
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <button className="text-[#718096] hover:text-[#004B6E] mx-auto">
-                          <svg
-                            className="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                            />
-                          </svg>
-                        </button>
-                      </td>
-                    </tr>
+                    {fetching ? (
+                      <tr>
+                        <td colSpan="5" className="text-center py-10">
+                          Loading...
+                        </td>
+                      </tr>
+                    ) : deposits.length === 0 ? (
+                      <tr>
+                        <td colSpan="5" className="text-center py-10">
+                          No deposits found.
+                        </td>
+                      </tr>
+                    ) : (
+                      deposits.map((deposit) => (
+                        <tr
+                          key={deposit._id}
+                          className="hover:bg-slate-50 transition-colors"
+                        >
+                          <td className="px-6 py-4">
+                            {" "}
+                            {new Date(deposit.createdAt).toLocaleDateString()}
+                          </td>
+                          <td className="px-6 py-4 font-medium text-[#556370]">
+                            {deposit.accountNumber}
+                          </td>
+                          <td className="px-6 py-4 font-bold text-[#004B6E]">
+                            ${Number(deposit.amount).toLocaleString()}
+                          </td>
+                          <td className="px-6 py-4">
+                            <span
+                              className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                                deposit.status,
+                              )}`}
+                            >
+                              {deposit.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-center">
+                            <a
+                              className="text-[#718096] hover:text-[#004B6E] mx-auto"
+                              href={deposit.frontImage}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              View
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -434,7 +492,7 @@ export default function DepositCheck() {
       </main>
 
       {/* Global Footer Block */}
-      <footer className="w-full py-8 mt-auto bg-[#1C3540] text-white border-t border-[#12252E]">
+      <footer className="w-full text-left py-8 mt-auto bg-[#1C3540] text-white border-t border-[#12252E]">
         <div className="max-w-[1200px] mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
           <div className="space-y-1">
             <span className="font-bold text-lg">FinCorp Global</span>
@@ -462,6 +520,7 @@ export default function DepositCheck() {
           </div>
         </div>
       </footer>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import axiosClient from "../../util/axiosClient";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const EnterPin = ({ onClose, onConfirm }) => {
+  const navigate = useNavigate();
   const [pin, setPin] = useState(["", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const inputRefs = useRef([]);
@@ -71,6 +73,10 @@ const EnterPin = ({ onClose, onConfirm }) => {
 
   const isPinComplete = pin.every(Boolean);
 
+  const handleForgotPin = () => {
+    navigate("/Reset-Transaction-Pin");
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-200 bg-opacity-40 px-4">
       <div className="bg-white flex flex-col gap-7 rounded-lg shadow-lg w-full max-w-sm p-6 relative">
@@ -88,20 +94,29 @@ const EnterPin = ({ onClose, onConfirm }) => {
           Enter the 4-digit PIN sent to your <br />
           <span className="font-medium text-[#006A91]">Email</span>
         </p>
-
-        <div className="flex justify-between mb-6">
-          {pin.map((digit, i) => (
-            <input
-              key={i}
-              type="password"
-              maxLength="1"
-              value={digit}
-              ref={(el) => (inputRefs.current[i] = el)}
-              onChange={(e) => handleChange(e, i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
-              className="w-12 h-12 text-center border-gray-400 text-xl border rounded-md focus:outline-none focus:ring-2 focus:ring-[#007C92]"
-            />
-          ))}
+        <div>
+          <div className="flex justify-between mb-3">
+            {pin.map((digit, i) => (
+              <input
+                key={i}
+                type="password"
+                maxLength="1"
+                value={digit}
+                ref={(el) => (inputRefs.current[i] = el)}
+                onChange={(e) => handleChange(e, i)}
+                onKeyDown={(e) => handleKeyDown(e, i)}
+                className="w-12 h-12 text-center border-gray-400 text-xl border rounded-md focus:outline-none focus:ring-2 focus:ring-[#007C92]"
+              />
+            ))}
+          </div>
+          <div className="flex justify-end ">
+            <button
+              onClick={handleForgotPin}
+              className="text-[#006A91] hover:text-[#005b77] text-sm font-medium hover:underline transition-colors"
+            >
+              Forgot PIN?
+            </button>
+          </div>
         </div>
 
         <button

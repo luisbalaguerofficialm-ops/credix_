@@ -11,7 +11,6 @@ import AddMoney from "./pages/AddMoney";
 import NewAccountSecond from "./auth/NewAccountSecond";
 import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
-// import Notifications from "./pages/Notifications";
 import NewAccountThird from "./auth/NewAccountThird";
 import Business from "./pages/Business";
 import Loans from "./pages/Loans";
@@ -36,6 +35,12 @@ import ThirdSetTransfer from "./pages/ThirdSetTransfar";
 import ChangeTransactionPin from "./auth/ChangeTransactionPin";
 import SupportHelpCenter from "./pages/SupportHelpCenter";
 import NewAccountFirst from "./auth/NewAccountFirst";
+import ResetTransactionPin from "./auth/ResetTransactionPin";
+import SendTransactionPinOtp from "./auth/SendTransactionPinOtp";
+import OtpVerification from "./auth/OtpVerification";
+import PasswordResetSuccessfullly from "./features/PasswordResetSuccessfullly";
+import TransactionPinResetSuccessfully from "./features/TransactionPinResetSuccessfully";
+import TransactionDetails from "./components/TransactionDetails";
 
 function App() {
   return (
@@ -50,8 +55,13 @@ function App() {
             <Route element={<PublicLayout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/contact" element={<Contact />} />
+
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route
+                path="/Password-Reset-Successfullly"
+                element={<PasswordResetSuccessfullly />}
+              />
               <Route path="/new-account" element={<NewAccountFirst />} />
               <Route
                 path="/account-persional-info"
@@ -64,32 +74,51 @@ function App() {
               <Route path="/business" element={<Business />} />
               <Route path="/loans" element={<Loans />} />
               <Route path="/personal" element={<Personal />} />
-              <Route path="/pay-bills" element={<PayBills />} />
-              <Route path="/deposit-check" element={<DepositCheck />} />
             </Route>
 
             {/* Protected Routes - All inside Layout for persistent sidebar */}
             <Route element={<Layout />}>
               <Route path="/user-dashboard" element={<UserDashboard />} />
               <Route path="/add-money" element={<AddMoney />} />
-              {/* <Route path="/notifications" element={<Notifications />} />\{" "} */}
+
               <Route
                 path="/profile-settings"
                 element={<ProfileAndSettings />}
               />
+              <Route path="/pay-bills" element={<PayBills />} />
               <Route path="/change-password" element={<ChangePassword />} />
               <Route
                 path="/notification-center"
                 element={<NotificationCenter />}
               />
+
+              <Route path="/deposit-check" element={<DepositCheck />} />
+              <Route
+                path="/Send-Transaction-Pin-Otp"
+                element={<SendTransactionPinOtp />}
+              />
+              <Route path="/Otp-Verification" element={<OtpVerification />} />
+              <Route
+                path="/Transaction-Pin-Reset-Successfully"
+                element={<TransactionPinResetSuccessfully />}
+              />
               <Route
                 path="/all-transaction-history"
                 element={<AllTransactionHistory />}
+              />
+
+              <Route
+                path="/transaction-details/:id"
+                element={<TransactionDetails />}
               />
               <Route path="/change-password" element={<ChangePassword />} />
               <Route
                 path="/change-transaction-pin"
                 element={<ChangeTransactionPin />}
+              />
+              <Route
+                path="/Reset-Transaction-Pin"
+                element={<ResetTransactionPin />}
               />
               <Route
                 path="/transaction-pin-updated"
@@ -100,7 +129,7 @@ function App() {
                 element={<PasswordUpdatedSuccessfully />}
               />
               <Route
-                path="/transfer-successfully/:transactionId"
+                path="/transfer-successfully/:id"
                 element={<TransfarSuccessfully />}
               />
               <Route

@@ -21,31 +21,14 @@ export default function SupportHelpCenter() {
   return (
     <div className="bg-[#f3faff] text-[#001f29] font-sans flex flex-col">
       <main className="flex-grow">
-        {/* */}
-        <section className="relative bg-[#234552] py-16 overflow-hidden">
-          <ArrowLeft className="cursor-pointer ml-2 text-white hover:opacity-80 w-10 h-9" />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              How can we help you today?
-            </h1>
-            <div className="max-w-2xl mx-auto relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-[#70787f] w-5 h-5" />
-              <input
-                className="w-full pl-12 pr-4 py-4 rounded-lg bg-white border-none shadow-xl focus:ring-2 focus:ring-[#006a91] text-base"
-                placeholder="Search for articles, topics, or FAQs..."
-                type="text"
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* */}
         <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* */}
           <div className="lg:col-span-8 flex flex-col justify-between">
             <div>
               <h2 className="text-xl font-bold text-[#001f29] mb-6">
-                Browse help topics
+                Browse help topics{" "}
+                <br className="text-xl font-bold text-[#4f21ce] mb-6" /> GO Live
+                Chat With Us
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* */}
@@ -252,7 +235,6 @@ export default function SupportHelpCenter() {
             </div>
           </aside>
         </div>
-
         {/* */}
         <section className="bg-white py-16 border-t border-[#bfc8cf]">
           <div className="max-w-7xl mx-auto px-6 text-center">
@@ -272,7 +254,7 @@ export default function SupportHelpCenter() {
                   Call Us
                 </h4>
                 <p className="text-sm font-semibold text-[#40484e]">
-                  1-800-APEX-BANK
+                  1-800-Credit-BANK
                 </p>
                 <p className="text-xs text-[#70787f] mt-1">
                   Available 24/7 for urgent matters
@@ -286,7 +268,7 @@ export default function SupportHelpCenter() {
                   Email Support
                 </h4>
                 <p className="text-sm font-semibold text-[#40484e]">
-                  support@apexbank.com
+                  support@credixa.co
                 </p>
                 <p className="text-xs text-[#70787f] mt-1">
                   Response within 24 hours
@@ -310,115 +292,6 @@ export default function SupportHelpCenter() {
           </div>
         </section>
       </main>
-
-      {/* */}
-      <footer className="w-full pt-12 pb-8 bg-[#234552] text-white">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-          <div>
-            <span className="text-xl font-bold block mb-4">Credit Bank</span>
-            <p className="text-sm text-[#c5e8f8]/80 leading-relaxed">
-              Empowering your financial future with secure, modern, and reliable
-              banking solutions tailored for you.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h5 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-1">
-              Services
-            </h5>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Personal Checking
-            </a>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Mortgage Loans
-            </a>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Investment Portfolios
-            </a>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Business Credit
-            </a>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h5 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-1">
-              Help & Support
-            </h5>
-            <a className="text-sm text-white underline font-medium" href="#">
-              Help Center
-            </a>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Security Center
-            </a>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Fraud Prevention
-            </a>
-            <a
-              className="text-sm text-[#c5e8f8]/80 hover:text-white transition-colors"
-              href="#"
-            >
-              Contact Support
-            </a>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h5 className="text-xs font-bold uppercase tracking-wider text-white/50 mb-1">
-              Follow Us
-            </h5>
-            <div className="flex gap-3">
-              <a
-                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#006a91] transition-all"
-                href="#"
-              >
-                <Share2 className="w-4 h-4" />
-              </a>
-              <a
-                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#006a91] transition-all"
-                href="#"
-              >
-                <Globe className="w-4 h-4" />
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto px-6 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-[#c5e8f8]/60 text-center md:text-left">
-            © 2024 ApexBank Financial Corp. Member FDIC. Equal Housing Lender.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-[#c5e8f8]/60">
-            <a className="hover:text-white transition-colors" href="#">
-              Privacy Policy
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Security
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Terms of Service
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Accessibility
-            </a>
-            <a className="hover:text-white transition-colors" href="#">
-              Contact Us
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

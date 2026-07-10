@@ -4,8 +4,8 @@ import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import toast, { Toaster } from "react-hot-toast";
 import axiosClient from "../util/axiosClient";
 
-import logo from "../assets/credit-union.jpg";
-import sideImage from "../assets/bank.webp";
+import logo from "../assets/america_bank_logo.png";
+import sideImage from "../assets/america_bank_logo.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -38,8 +38,6 @@ const Login = () => {
       localStorage.setItem("refreshToken", res.data.refreshToken);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      toast.success("Login successful");
-
       navigate("/user-dashboard");
     } catch (err) {
       toast.error(err.response?.data?.message || "Login failed");
@@ -56,7 +54,7 @@ const Login = () => {
       <div className="flex-1 flex justify-center items-center px-4 sm:px-6 py-10 bg-white">
         <div className="flex flex-col justify-center items-center gap-8 w-full max-w-md">
           <Link to="/">
-            <img src={logo} alt="Credit Union" className="mx-auto w-45" />
+            <img src={logo} alt="America Bank" className="mx-auto w-70 h-68" />
           </Link>
 
           <div className="gap-2 flex flex-col items-center justify-center text-center">

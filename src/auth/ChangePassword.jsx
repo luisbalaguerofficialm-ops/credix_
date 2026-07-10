@@ -9,6 +9,9 @@ import {
   LockKeyhole,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import axiosClient from "../util/axiosClient";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function ChangePassword() {
   const navigate = useNavigate();
@@ -16,10 +19,11 @@ export default function ChangePassword() {
   const [showCurrent, setShowCurrent] = useState(false);
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
-
-  // Form Field Value States
-  const [password, setPassword] = useState("");
+  // Input Value States
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Evaluates simple mock metric ranges matching standard visual layouts
   const getStrengthMetric = (val) => {
@@ -31,46 +35,51 @@ export default function ChangePassword() {
     return { label: "Strong", barClass: "w-full bg-[#496801]" };
   };
 
-  const strength = getStrengthMetric(password);
-
-  const handleSubmit = (e) => {
+  const strength = getStrengthMetric(newPassword);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      return toast.error("Please fill in all fields.");
     }
-    // Perform standard state mutation or authentication endpoints dispatch here
+
+    if (newPassword !== confirmPassword) {
+      return toast.error("Passwords do not match.");
+    }
+
+    if (newPassword.length < 8) {
+      return toast.error("Password must be at least 8 characters.");
+    }
+
+    try {
+      setLoading(true);
+
+      const { data } = await axiosClient.put("/api/users/change-password", {
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      });
+
+      toast.success(data.message);
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+
+      navigate("/password-updated-successfully");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to change password.");
+    } finally {
+      setLoading(false);
+    }
   };
-  const handlePasswordChange = () => {
-    navigate("/password-updated-successfully");
+
+  const handleBack = () => {
+    navigate(-1); // Navigate back to the previous page
   };
+
   return (
     <div className="bg-[#f3faff] text-[#001f29] font-sans antialiased min-h-screen flex flex-col pt-16">
-      {/* --- TopAppBar Header Segment --- */}
-      <header className="bg-white fixed top-0 left-0 right-0 h-16 border-b border-[#c2cbd4] shadow-sm z-50 transition-colors">
-        <div className="flex justify-between items-center h-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center">
-            <button
-              type="button"
-              className="flex items-center gap-1.5 text-sm font-semibold text-[#40484e] hover:text-[#00516f] transition-all group"
-            >
-              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" />
-              <span>Settings</span>
-            </button>
-            <div className="h-5 w-px bg-[#bfc8cf] mx-4" />
-            <span className="text-xl font-bold text-[#003b54] tracking-tight">
-              Lumina Bank
-            </span>
-          </div>
-          <button
-            type="button"
-            className="text-[#00516f] hover:bg-[#e6f4fa] p-2 rounded-full transition-colors"
-          >
-            <HelpCircle className="w-5 h-5" />
-          </button>
-        </div>
-      </header>
-
       {/* --- Main Content Layout --- */}
       <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl w-full">
@@ -99,6 +108,8 @@ export default function ChangePassword() {
                   <input
                     id="current_password"
                     type={showCurrent ? "text" : "password"}
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
                     placeholder="Enter current password"
                     className="w-full h-11 px-4 pr-11 rounded-xl border border-[#a0aab2] focus:border-[#00516f] focus:ring-1 focus:ring-[#00516f] outline-none text-sm transition-all bg-white"
                     required
@@ -129,8 +140,8 @@ export default function ChangePassword() {
                   <input
                     id="new_password"
                     type={showNew ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Min. 8 characters"
                     className="w-full h-11 px-4 pr-11 rounded-xl border border-[#a0aab2] focus:border-[#00516f] focus:ring-1 focus:ring-[#00516f] outline-none text-sm transition-all bg-white"
                     required
@@ -224,13 +235,14 @@ export default function ChangePassword() {
               {/* Structured Action Footers */}
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <button
-                  onClick={handlePasswordChange}
                   type="submit"
-                  className="w-full bg-[#00516f] hover:bg-[#003b54] text-white font-semibold text-sm py-3 px-6 rounded-xl transition-all active:scale-[0.99] shadow-sm"
+                  disabled={loading}
+                  className="w-full bg-[#00516f] hover:bg-[#003b54] disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm py-3 px-6 rounded-xl transition-all active:scale-[0.99] shadow-sm"
                 >
-                  Save Changes
+                  {loading ? "Changing Password..." : "Save Changes"}
                 </button>
                 <button
+                  onClick={handleBack}
                   type="button"
                   className="w-full bg-white border border-[#c2cbd4] text-[#54626d] hover:bg-gray-50 font-semibold text-sm py-3 px-6 rounded-xl transition-all"
                 >

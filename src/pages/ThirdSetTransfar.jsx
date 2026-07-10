@@ -44,6 +44,7 @@ export default function ThirdSetTransfer() {
         iban: transferData.iban,
         swiftCode: transferData.swiftCode,
         narration: transferData.narration,
+        transactionPin,
       };
 
       const { data } = await axiosClient.post("/api/transactions", {
@@ -57,7 +58,7 @@ export default function ThirdSetTransfer() {
       // clear transfar data after success
       localStorage.removeItem("transferData");
 
-      navigate(`/transfer-successfully/${result.transaction.transactionId}`);
+      navigate(`/transfer-successfully/${result.transaction._id}`);
     } catch (error) {
       console.log("Status:", error.response?.status);
       console.log("Response:", error.response?.data);
@@ -65,7 +66,7 @@ export default function ThirdSetTransfer() {
         ...payload,
         transactionPin,
       });
-      toast.error(error?.response?.data?.message || " transfer failed");
+      toast.error(error?.response?.data?.message || "transfer failed");
     } finally {
       setLoading(false);
     }
@@ -103,7 +104,7 @@ export default function ThirdSetTransfer() {
             </div>
             {/* Structured Financial Ledger Block */}
             <div className="p-6 sm:p-10">
-              <div className="flex items-start gap-4 mb-8">
+              <div className="flex flex-col items-center gap-4 mb-8">
                 <div className="w-12 h-12 rounded-xl bg-green-500 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-9 h-9 text-white" />
                 </div>

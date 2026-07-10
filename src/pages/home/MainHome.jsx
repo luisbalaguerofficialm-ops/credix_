@@ -17,7 +17,7 @@ import logo2 from "../../assets/logo2.png";
 import logo3 from "../../assets/logo3.png";
 import logo4 from "../../assets/logo4.png";
 import logo5 from "../../assets/logo5.png";
-import logs from "../../assets/credit-union.jpg";
+import logs from "../../assets/america_bank_logo.png";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 
@@ -134,7 +134,7 @@ const MainHome = () => {
         className="relative w-full min-h-[730px] bg-center flex items-center justify-center px-6 sm:px-8 md:px-10 py-16 md:py-24 overflow-hidden"
         style={{
           backgroundImage: `url(${logs})`,
-          backgroundSize: "70%", // smaller image
+          backgroundSize: "90%", // smaller image
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           filter: "brightness(0.8)", // reduced brightness

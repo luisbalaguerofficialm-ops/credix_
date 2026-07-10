@@ -1,7 +1,7 @@
 // src/util/socket.js
 import { io } from "socket.io-client";
 
-const API_URL = "https://credit-union-backend-1.onrender.com";
+const API_URL = "https://api.credixa.co";
 
 const socket = io(API_URL, {
   transports: ["websocket"],

@@ -64,30 +64,6 @@ const NewAccountForth = () => {
 
   return (
     <div className="bg-[#f3faff] text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
-      {/* Header Bar */}
-      <header className="bg-white w-full h-20 flex items-center px-6 md:px-16 border-b border-[#e2eaf0] sticky top-0 z-50 shadow-sm">
-        <div className="max-w-6xl mx-auto w-full flex justify-between items-center">
-          <div className="text-2xl font-bold tracking-tight text-[#004b6e]">
-            Credit Union
-          </div>
-          <div className="flex items-center gap-6 text-sm font-medium">
-            <span className="text-[#556570] flex items-center gap-2">
-              <svg
-                className="w-4 h-4 text-[#004b6e]"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
-              </svg>
-              Secure Connection
-            </span>
-            <button className="text-[#004b6e] hover:text-[#00334a] font-semibold transition-colors">
-              Next and Exit
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Main Container */}
       <main className="flex-grow w-full max-w-5xl mx-auto px-6 md:px-12 py-12 relative">
         {/* Step Indicator Section */}
@@ -339,9 +315,6 @@ const NewAccountForth = () => {
             >
               {loading ? "Submitting..." : "Submit Application"}
             </button>
-            <button className="border border-[#a3b8c4] text-[#4a5b66] bg-white hover:bg-[#f8fafc] font-semibold text-sm py-3.5 px-8 rounded-md transition-all">
-              Save and Exit
-            </button>
           </div>
 
           <div className="flex items-center gap-6">
@@ -375,37 +348,6 @@ const NewAccountForth = () => {
           </div>
         </section>
       </main>
-
-      {/* Global Brand Footer */}
-      <footer className="bg-[#1a3644] text-white w-full py-10 px-6 md:px-16 mt-auto">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
-          <div className="space-y-2">
-            <div className="text-xl font-bold tracking-tight text-white">
-              Credit Union
-            </div>
-            <p className="text-xs text-[#a3b8c4] font-medium">
-              © 2026 Credit Union. Member NCUA. Equal Housing Lender.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium text-[#a3b8c4]">
-            <a className="hover:text-white transition-colors" href="#privacy">
-              Privacy Policy
-            </a>
-            <a className="hover:text-white transition-colors" href="#security">
-              Security
-            </a>
-            <a className="hover:text-white transition-colors" href="#terms">
-              Terms of Service
-            </a>
-            <a
-              className="hover:text-white transition-colors"
-              href="#disclosures"
-            >
-              Legal Disclosures
-            </a>
-          </div>
-        </div>
-      </footer>
       <ToastContainer position="top-right" autoClose={3000} newestOnTop />
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6";
-import logo from "../assets/credit-union.jpg";
+import logo from "../assets/america_bank_logo.png";
 
 const Footer = () => {
   return (

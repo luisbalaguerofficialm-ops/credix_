@@ -15,43 +15,6 @@ export default function TransactionPinUpdated() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f8fafc] text-[#001f29] font-sans antialiased">
-      {/* --- Top Utility Bar --- */}
-      <div className="w-full bg-[#234552] h-8 flex items-center justify-end px-4 sm:px-6 lg:px-8">
-        <div className="flex gap-4 text-xs font-medium text-white/90">
-          <span className="cursor-pointer hover:text-white transition-colors">
-            Security Center
-          </span>
-          <span className="cursor-pointer hover:text-white transition-colors">
-            Support
-          </span>
-        </div>
-      </div>
-
-      {/* --- TopNavBar --- */}
-      <nav className="bg-white border-b border-[#e2eaf1] sticky top-0 z-50 shadow-sm">
-        <div className="flex justify-between items-center w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto h-16">
-          <div className="text-xl font-bold text-[#00516f] tracking-tight">
-            Financial Partner
-          </div>
-          <div className="flex items-center gap-4">
-            <button
-              type="button"
-              className="text-[#40484e] hover:text-[#006a91] transition-colors flex items-center gap-1 text-sm font-semibold"
-            >
-              <HelpCircle className="w-4 h-4" />
-              <span>Help</span>
-            </button>
-            <div className="h-4 w-px bg-[#bfc8cf] mx-1" />
-            <button
-              type="button"
-              className="text-[#40484e] hover:text-[#ba1a1a] p-1.5 rounded-full hover:bg-slate-100 transition-all"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </nav>
-
       {/* --- Main Content Canvas --- */}
       <main className="flex-grow flex items-center justify-center py-16 px-4 sm:px-6">
         <div className="max-w-[540px] w-full relative">
@@ -92,7 +55,6 @@ export default function TransactionPinUpdated() {
               </button>
               <button
                 onClick={handleGoToDashboard}
-                type="button"
                 type="button"
                 className="w-full h-12 bg-transparent border border-[#c2cbd4] text-[#00516f] font-semibold text-sm rounded-xl hover:bg-[#f0f9ff] transition-all"
               >
