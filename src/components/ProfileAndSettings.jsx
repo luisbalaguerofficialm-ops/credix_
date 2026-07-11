@@ -144,12 +144,20 @@ export default function ProfileAndSettings() {
     navigate("/change-transaction-pin");
   };
 
+  const handleResetTransactionPin = () => {
+    navigate("/transaction-pin-otp");
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <>
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="bg-[#F4F8FA] text-[#001F2A] text-left font-sans min-h-screen flex flex-col">
         {/* Main Container */}
-        <div className="flex-grow w-full max-w-[1240px] mx-auto px-6 py-10">
+        <div className="flex-grow w-full max-w-[1230px] mx-auto px-2 py-10">
           <header className="mb-8">
             <h1 className="text-4xl font-bold text-[#004B6E] mb-2">
               Settings & Security
@@ -164,7 +172,7 @@ export default function ProfileAndSettings() {
             {/* Left Main Panels Section */}
             <div className="lg:col-span-8 space-y-6">
               {/* Card: Personal Information */}
-              <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm">
+              <section className="bg-white border border-[#E2E8F0] rounded-xl p-3 shadow-sm">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#F0F4F8] pb-6 mb-6">
                   <div className="flex items-start gap-4">
                     <div className="flex items-center gap-4">
@@ -390,12 +398,19 @@ export default function ProfileAndSettings() {
                   <div className="py-4.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
                       <h4 className="text-sm font-bold text-[#001F2A]">
-                        Password
+                        Transaction Pin
                       </h4>
                       <p className="text-xs text-[#556370]">
-                        Last changed 3 months ago
+                        Reset Transaction Pin
                       </p>
                     </div>
+
+                    <button
+                      onClick={handleResetTransactionPin}
+                      className="px-4 py-2 border border-[#CBD5E1] text-[#004B6E] font-bold text-xs rounded-lg hover:bg-slate-100 transition-colors self-start sm:self-center"
+                    >
+                      Reset Pin
+                    </button>
                   </div>
 
                   {/* Row 5 */}
@@ -417,6 +432,13 @@ export default function ProfileAndSettings() {
                   </div>
                 </div>
               </section>
+
+              <button
+                onClick={handleBack}
+                className="border rounded-lg w-20 hover:bg-gray-300"
+              >
+                Back
+              </button>
             </div>
 
             {/* Right Sidebar Preferences Section */}

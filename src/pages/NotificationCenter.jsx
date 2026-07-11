@@ -198,7 +198,7 @@ export default function NotificationCenter() {
               <p className="text-sm text-gray-500">
                 {unreadCount} unread notifications
               </p>
-              <p className="text-[#54626d] text-sm mt-1">
+              <p className="text-[#54626d] text-sm mt-3">
                 Stay updated with your account activity, security alerts, and
                 the latest updates from Meridian.
               </p>
@@ -211,8 +211,8 @@ export default function NotificationCenter() {
               >
                 {markingAll ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                    Marking...
+                    <RefreshCw className="w-5 h-5 animate-spin" />
+                    
                   </>
                 ) : (
                   <>
@@ -362,7 +362,7 @@ export default function NotificationCenter() {
                             {notification.message}
                           </p>
                         </div>
-                        <div className="flex items-center gap-2 shrink-0">
+                        <div className="flex items-center gap-2 md:mt-0 mt-5 shrink-0">
                           {/* Mark as Read */}
                           {!notification.read && (
                             <button

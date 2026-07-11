@@ -105,14 +105,14 @@ export default function AllTransactionHistory() {
             </div>
             <button
               onClick={handleBack}
-              className="inline-flex hover:border-[#004B6E] px-4 py-2 border border-[#CBD5E1] bg-white rounded-lg text-xs font-bold text-[#556370] hover:bg-slate-100 transition-colors"
+              className="inline-flex hover:border-[#004B6E] px-4 py-2 border border-[#CBD5E1] md:w-0 w-17 bg-white rounded-lg text-xs font-bold text-[#556370] hover:bg-slate-100 transition-colors"
             >
               Back
             </button>
           </div>
 
           {/* Filter Configuration Controls */}
-          <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-sm mb-6">
+          <div className="bg-white border border-[#E2E8F0] md:w-0 w-90 rounded-xl p-4 shadow-sm mb-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 items-end">
               <div className="space-y-1.5 lg:col-span-3">
                 <label className="text-xs font-bold text-[#556370]">
@@ -241,7 +241,7 @@ export default function AllTransactionHistory() {
           </div>
 
           {/* Transaction History Workspace Table */}
-          <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-white border border-[#E2E8F0] rounded-xl shadow-sm  overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse min-w-[700px]">
                 <thead>
@@ -478,7 +478,7 @@ ${transaction.type === "Deposit" ? "text-green-600" : "text-red-600"}
         <footer className="w-full py-8 bg-[#1A303B] text-white mt-12">
           <div className="max-w-[1240px] mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="space-y-1">
-              <span className="font-bold text-md">Meridian Credit Union</span>
+              <span className="font-bold text-md">America Bank</span>
               <p className="text-xs text-[#BCE6FF] opacity-70">
                 Secure banking for the modern age. Member-focused,
                 community-driven.

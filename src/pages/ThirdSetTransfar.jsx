@@ -222,7 +222,7 @@ export default function ThirdSetTransfer() {
         <div className="max-w-8xl mx-auto pt-12 pb-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="space-y-4 max-w-sm">
             <span className="text-xl font-bold tracking-tight block">
-              Credit Unoin Bank
+              AMERICA BANK
             </span>
             <p className="text-xs text-slate-300 leading-relaxed font-medium">
               A global leader in digital banking solutions, committed to your

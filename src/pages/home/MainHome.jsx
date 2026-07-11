@@ -313,7 +313,7 @@ const MainHome = () => {
           for seamless, secure, and rewarding digital banking.
         </p>
         <Link
-          to="/Open-Account"
+          to="/new-account"
           className="w-[150px] h-[42px] transition duration-300 rounded-lg bg-[#006A91] text-white text-sm font-medium hover:bg-[#005c7d] py-2"
         >
           Open An Account

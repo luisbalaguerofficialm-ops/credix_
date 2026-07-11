@@ -451,7 +451,7 @@ export default function UserDashboard() {
           <h3 className="text-4x1 font-extrabold text-[#001e2b] mb-4">
             Quick Actions
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link
               to="/first-step-transfer
               "
@@ -462,7 +462,7 @@ export default function UserDashboard() {
                 Transfer Funds
               </span>
             </Link>
-            <Link
+            {/* <Link
               to="/pay-bills"
               className="flex flex-col items-center justify-center p-5 bg-white border border-[#e1e9ef] rounded-lg hover:border-[#005a78] hover:shadow-sm transition-all group"
             >
@@ -470,7 +470,7 @@ export default function UserDashboard() {
               <span className="text-sm font-medium text-gray-700">
                 Pay Bills
               </span>
-            </Link>
+            </Link> */}
             <Link
               to="/deposit-check"
               className="flex flex-col items-center justify-center p-5 bg-white border border-[#e1e9ef] rounded-lg hover:border-[#005a78] hover:shadow-sm transition-all group"
@@ -657,7 +657,7 @@ export default function UserDashboard() {
                     />
                   </svg>
                 </div>
-                <div className="flex gap-42">
+                <div className="flex md:gap-42 gap-27">
                   <h3 className="text-[#004e69] font-bold text-sm">
                     Notifications
                   </h3>

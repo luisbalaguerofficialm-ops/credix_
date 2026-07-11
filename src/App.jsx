@@ -10,7 +10,7 @@ import HomePage from "./pages/HomePage";
 import AddMoney from "./pages/AddMoney";
 import NewAccountSecond from "./auth/NewAccountSecond";
 import Login from "./pages/Login";
-import ForgotPassword from "./pages/ForgotPassword";
+import ForgotPassword from "./auth/ForgotPassword";
 import NewAccountThird from "./auth/NewAccountThird";
 import Business from "./pages/Business";
 import Loans from "./pages/Loans";
@@ -41,6 +41,8 @@ import OtpVerification from "./auth/OtpVerification";
 import PasswordResetSuccessfullly from "./features/PasswordResetSuccessfullly";
 import TransactionPinResetSuccessfully from "./features/TransactionPinResetSuccessfully";
 import TransactionDetails from "./components/TransactionDetails";
+import VerifyOtp from "./auth/VerifyOpt";
+import ResetPassword from "./auth/ResetPassword";
 
 function App() {
   return (
@@ -59,14 +61,19 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route
-                path="/Password-Reset-Successfullly"
+                path="/password-reset-successfullly"
                 element={<PasswordResetSuccessfullly />}
               />
+              <Route path="/reset-password" element={<ResetPassword />} />
+
+              <Route path="/verify-otp" element={<VerifyOtp />} />
+
               <Route path="/new-account" element={<NewAccountFirst />} />
               <Route
                 path="/account-persional-info"
                 element={<NewAccountSecond />}
               />
+
               <Route path="/new-account-kyc" element={<NewAccountThird />} />
               <Route path="/new-account-Final" element={<NewAccountForth />} />
               <Route path="/about" element={<About />} />
@@ -94,7 +101,7 @@ function App() {
 
               <Route path="/deposit-check" element={<DepositCheck />} />
               <Route
-                path="/Send-Transaction-Pin-Otp"
+                path="transaction-pin-otp"
                 element={<SendTransactionPinOtp />}
               />
               <Route path="/Otp-Verification" element={<OtpVerification />} />

@@ -36,12 +36,11 @@ export const AuthProvider = ({ children }) => {
     socket.emit("join-user", user._id);
 
     // Listen for real-time updates
-    socket.on("kyc-approved", fetchUser);
+
     socket.on("profile-updated", fetchUser);
     socket.on("user-updated", fetchUser);
 
     return () => {
-      socket.off("kyc-approved", fetchUser);
       socket.off("profile-updated", fetchUser);
       socket.off("user-updated", fetchUser);
     };

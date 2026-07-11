@@ -1,5 +1,6 @@
 import React from "react";
 import { CheckCircle2, ShieldCheck } from "lucide-react";
+import { Link } from "react-router";
 
 export default function PasswordResetSuccessfully() {
   return (
@@ -13,7 +14,7 @@ export default function PasswordResetSuccessfully() {
           {/* Branding */}
           <div className="mb-10">
             <span className="text-3xl font-bold text-[#004b66] tracking-tight">
-              Credit Union 
+              Credit Union
             </span>
           </div>
 
@@ -35,12 +36,13 @@ export default function PasswordResetSuccessfully() {
           </p>
 
           {/* Primary Action Button */}
-          <a
+          <Link
+            to="/login"
             className="inline-flex items-center justify-center w-full bg-[#004c66] text-white font-semibold text-base py-4 px-8 rounded-xl transition-all duration-200 hover:bg-[#003d52] active:scale-[0.99] shadow-sm"
             href="#"
           >
             Back to Sign In
-          </a>
+          </Link>
 
           {/* Helper Support Footer */}
           <div className="mt-10 pt-8 border-t border-[#e2e8f0]">

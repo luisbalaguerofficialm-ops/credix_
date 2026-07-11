@@ -44,7 +44,7 @@ export default function FirstSepTransfer() {
   };
 
   const handleBack = () => {
-    navigate("/user-dashboard");
+    navigate(-1);
   };
 
   const countries = useMemo(() => {
@@ -261,7 +261,7 @@ export default function FirstSepTransfer() {
       <footer className="w-full bg-[#1c333d] text-white mt-auto">
         <div className="max-w-7xl mx-auto pt-12 pb-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start gap-8">
           <div className="space-y-3">
-            <div className="text-xl font-bold tracking-tight">Nexus Bank</div>
+            <div className="text-xl font-bold tracking-tight">America Bank</div>
             <p className="text-xs text-slate-300 leading-relaxed max-w-xs font-medium">
               Empowering your financial future with secure, global banking
               solutions.

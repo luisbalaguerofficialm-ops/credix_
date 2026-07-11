@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import axiosClient from "../util/axiosClient";
+import { toast } from "react-toastify";
 import {
   Search,
   User,
@@ -16,8 +18,79 @@ import {
   Globe,
   ArrowLeft,
 } from "lucide-react";
+import { Link } from "react-router";
 
 export default function SupportHelpCenter() {
+  const bottomRef = useRef(null);
+  const [conversation, setConversation] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
+
+  useEffect(() => {
+    initializeChat();
+  }, []);
+
+  const initializeChat = async () => {
+    try {
+      let response;
+
+      try {
+        response = await axiosClient.get("/api/support/conversation");
+      } catch {
+        response = await axiosClient.post("/api/support/conversation");
+      }
+
+      setConversation(response.data.conversation);
+
+      loadMessages(response.data.conversation._id);
+    } catch (err) {
+      toast.error("Unable to load support.");
+    }
+  };
+
+  // LOAD MESSAGES
+  const loadMessages = async (conversationId) => {
+    try {
+      const { data } = await axiosClient.get(
+        `/api/support/messages/${conversationId}`,
+      );
+
+      setMessages(data.messages);
+
+      await axiosClient.patch("/api/support/messages/read");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (!newMessage.trim()) return;
+
+    try {
+      setLoading(true);
+
+      await axiosClient.post("/api/support/message", {
+        conversationId: conversation._id,
+        message: newMessage,
+      });
+
+      setNewMessage("");
+
+      loadMessages(conversation._id);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Unable to send.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="bg-[#f3faff] text-[#001f29] font-sans flex flex-col">
       <main className="flex-grow">
@@ -45,12 +118,13 @@ export default function SupportHelpCenter() {
                       authentication, and profile settings.
                     </p>
                   </div>
-                  <a
+                  <Link
+                    to="/profile-settings"
                     className="flex items-center text-sm font-semibold text-[#00516f] hover:underline"
                     href="#"
                   >
                     View Articles <ChevronRight className="w-4 h-4 ml-0.5" />
-                  </a>
+                  </Link>
                 </div>
 
                 {/* */}
@@ -111,12 +185,13 @@ export default function SupportHelpCenter() {
                       payments, and scheduled transfers.
                     </p>
                   </div>
-                  <a
+                  <Link
+                    to="/first-step-transfer"
                     className="flex items-center text-sm font-semibold text-[#00516f] hover:underline"
                     href="#"
                   >
                     View Articles <ChevronRight className="w-4 h-4 ml-0.5" />
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -160,7 +235,6 @@ export default function SupportHelpCenter() {
                 </div>
               </div>
 
-              {/* */}
               <div className="flex-grow p-4 overflow-y-auto space-y-4 bg-[#f3faff]/40">
                 <div className="flex justify-center">
                   <span className="text-xs text-[#70787f] px-3 py-1 bg-[#e5f6ff] rounded-full font-medium">
@@ -168,67 +242,79 @@ export default function SupportHelpCenter() {
                   </span>
                 </div>
 
-                {/* */}
-                <div className="flex gap-2 max-w-[85%]">
-                  <div className="bg-white p-3 rounded-xl rounded-tl-none shadow-sm border border-[#e5f6ff]">
-                    <p className="text-sm text-[#40484e]">
-                      Hello! I'm Sarah. How can I help you with your account
-                      today?
-                    </p>
-                  </div>
-                </div>
-                <div className="text-[10px] text-[#70787f] pl-1 -mt-3">
-                  10:24 AM
-                </div>
+                {messages.map((msg) => {
+                  const isSupport = msg.sender === "Support";
 
-                {/* */}
-                <div className="flex justify-end w-full">
-                  <div className="max-w-[85%] flex flex-col items-end gap-1">
-                    <div className="bg-[#00516f] text-white p-3 rounded-xl rounded-tr-none shadow-sm">
-                      <p className="text-sm">
-                        I'm having trouble viewing my recent mortgage statement.
-                      </p>
+                  return (
+                    <div key={msg._id}>
+                      {isSupport ? (
+                        <div className="flex flex-col items-start">
+                          <div className="bg-white p-3 rounded-xl rounded-tl-none shadow-sm border border-[#e5f6ff] max-w-[85%]">
+                            <p className="text-sm text-[#40484e]">
+                              {msg.message}
+                            </p>
+                          </div>
+
+                          <span className="text-[10px] text-[#70787f] mt-1 ml-1">
+                            {new Date(msg.createdAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="flex justify-end">
+                          <div className="max-w-[85%] flex flex-col items-end">
+                            <div className="bg-[#00516f] text-white p-3 rounded-xl rounded-tr-none shadow-sm">
+                              <p className="text-sm">{msg.message}</p>
+                            </div>
+
+                            <span className="text-[10px] text-[#70787f] mt-1">
+                              {new Date(msg.createdAt).toLocaleTimeString([], {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <span className="text-[10px] text-[#70787f] pr-1">
-                      10:25 AM
-                    </span>
-                  </div>
-                </div>
+                  );
+                })}
 
-                {/* */}
-                <div className="flex gap-2 max-w-[85%] flex-col">
-                  <div className="bg-white p-3 rounded-xl rounded-tl-none shadow-sm border border-[#bfc8cf]">
-                    <p className="text-sm text-[#40484e]">
-                      I can certainly help with that. Could you please confirm
-                      the last 4 digits of your account number?
-                    </p>
+                {loading && (
+                  <div className="flex items-center gap-2 text-[#70787f] text-xs">
+                    <span>Sending...</span>
                   </div>
-                  <span className="text-[10px] text-[#70787f] pl-1">
-                    10:25 AM
-                  </span>
-                </div>
+                )}
 
-                {/* */}
-                <div className="flex items-center gap-2 text-[#70787f] text-xs pl-1">
-                  <span className="italic">Sarah is typing</span>
-                  <span className="flex gap-0.5 mt-1">
-                    <span className="w-1 h-1 bg-[#70787f] rounded-full animate-bounce"></span>
-                    <span className="w-1 h-1 bg-[#70787f] rounded-full animate-bounce [animation-delay:0.2s]"></span>
-                    <span className="w-1 h-1 bg-[#70787f] rounded-full animate-bounce [animation-delay:0.4s]"></span>
-                  </span>
-                </div>
+                <div ref={bottomRef} />
               </div>
 
               {/* */}
               <div className="p-3 bg-white border-t border-[#bfc8cf]">
                 <div className="relative">
                   <input
-                    className="w-full pl-4 pr-10 py-2.5 rounded-full bg-[#f3faff] border border-[#bfc8cf] focus:outline-none focus:ring-1 focus:ring-[#00516f] text-sm"
-                    placeholder="Type your message..."
                     type="text"
+                    value={newMessage}
+                    placeholder="Type your message..."
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        sendMessage();
+                      }
+                    }}
+                    className="w-full pl-4 pr-12 py-2.5 rounded-full bg-[#f3faff] border border-[#bfc8cf] focus:outline-none focus:ring-1 focus:ring-[#00516f] text-sm"
                   />
-                  <button className="absolute right-3 top-1/2 -translate-y-1/2 text-[#00516f] hover:opacity-80 flex items-center">
-                    <Send className="w-4 h-4" />
+
+                  <button
+                    type="button"
+                    disabled={loading || !newMessage.trim()}
+                    onClick={sendMessage}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#00516f] disabled:opacity-40"
+                  >
+                    <Send className="w-5 h-5" />
                   </button>
                 </div>
               </div>
