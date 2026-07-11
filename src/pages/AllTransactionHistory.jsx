@@ -105,14 +105,14 @@ export default function AllTransactionHistory() {
             </div>
             <button
               onClick={handleBack}
-              className="inline-flex hover:border-[#004B6E] px-4 py-2 border border-[#CBD5E1] md:w-0 w-17 bg-white rounded-lg text-xs font-bold text-[#556370] hover:bg-slate-100 transition-colors"
+              className="inline-flex hover:border-[#004B6E] px-4 py-2 border border-[#CBD5E1] bg-white rounded-lg text-xs font-bold text-[#556370] hover:bg-slate-100 transition-colors"
             >
               Back
             </button>
           </div>
 
           {/* Filter Configuration Controls */}
-          <div className="bg-white border border-[#E2E8F0] md:w-0 w-90 rounded-xl p-4 shadow-sm mb-6">
+          <div className="bg-white border border-[#E2E8F0] rounded-xl p-4 shadow-sm mb-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-12 gap-4 items-end">
               <div className="space-y-1.5 lg:col-span-3">
                 <label className="text-xs font-bold text-[#556370]">

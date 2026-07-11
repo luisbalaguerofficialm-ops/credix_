@@ -10,6 +10,10 @@ export default function ProfileAndSettings() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [password, setPassword] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [originalProfile, setOriginalProfile] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
 
   const [profile, setProfile] = useState({
     fullName: "",
@@ -40,6 +44,7 @@ export default function ProfileAndSettings() {
       const res = await axiosClient.get("api/users/profile", {});
 
       setProfile(res.data.user);
+      setOriginalProfile(res.data.user);
     } catch (err) {
       console.log(err);
     }
@@ -56,8 +61,12 @@ export default function ProfileAndSettings() {
 
   const handleSaveChanges = async () => {
     try {
+      setSaving(true);
+
       const names = profile.fullName.trim().split(" ");
+
       const firstName = names[0];
+
       const lastName = names.slice(1).join(" ");
 
       await axiosClient.put("/api/users/update-profile", {
@@ -74,9 +83,16 @@ export default function ProfileAndSettings() {
       await axiosClient.put("/api/users/preferences", preferences);
 
       toast.success("Changes saved successfully.");
+
+      setOriginalProfile(profile);
+
+      setHasChanges(false);
+
+      setIsEditing(false);
     } catch (err) {
-      console.log(err);
       toast.error("Failed to save changes.");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -136,6 +152,22 @@ export default function ProfileAndSettings() {
       });
     }
   };
+
+  // . Detect changes automatically
+  useEffect(() => {
+    if (!originalProfile) return;
+
+    const changed =
+      profile.fullName !== originalProfile.fullName ||
+      profile.phone !== originalProfile.phone ||
+      profile.username !== originalProfile.username ||
+      profile.state !== originalProfile.state ||
+      profile.city !== originalProfile.city ||
+      profile.zipcode !== originalProfile.zipcode ||
+      profile.address !== originalProfile.address;
+
+    setHasChanges(changed);
+  }, [profile, originalProfile]);
   const handleChangePassword = () => {
     navigate("/change-password");
   };
@@ -194,36 +226,48 @@ export default function ProfileAndSettings() {
                       </p>
                     </div>
                   </div>
-
-                  <button className="flex items-center justify-center gap-1.5 px-3 py-1.5 border bg-[#002230] border-[#CBD5E1] rounded-lg text-xs font-bold text-[#ffffff] hover:bg-[#023146] transition-colors self-start sm:self-center">
-                    <svg
-                      className="w-4 h-4 text-[#ffffff]"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      viewBox="0 0 24 24"
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => setIsEditing(!isEditing)}
+                      className={`px-5 rounded-lg h-7 font-semibold transition
+      ${
+        isEditing
+          ? "bg-red-50 text-red-600 border border-red-200"
+          : "bg-[#004B6E] text-white"
+      }`}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                      />
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                    </svg>
-                    <label className="cursor-pointer ...">
-                      Change Photo
-                      <input
-                        type="file"
-                        hidden
-                        accept="image/*"
-                        onChange={handleProfileImage}
-                      />
-                    </label>
-                  </button>
+                      {isEditing ? "Cancel" : "Edit Profile"}
+                    </button>
+                    <button className="flex items-center justify-center gap-1.5 px-3 py-1.5 border bg-[#002230] border-[#CBD5E1] rounded-lg text-xs font-bold text-[#ffffff] hover:bg-[#023146] transition-colors self-start sm:self-center">
+                      <svg
+                        className="w-4 h-4 text-[#ffffff]"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                        />
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                      </svg>
+                      <label className="cursor-pointer ...">
+                        Change Photo
+                        <input
+                          type="file"
+                          hidden
+                          accept="image/*"
+                          onChange={handleProfileImage}
+                        />
+                      </label>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Form Input Layout Grid */}
@@ -233,6 +277,7 @@ export default function ProfileAndSettings() {
                       Full Name
                     </label>
                     <input
+                      readOnly={!isEditing}
                       value={profile.fullName}
                       onChange={(e) =>
                         setProfile({
@@ -240,8 +285,20 @@ export default function ProfileAndSettings() {
                           fullName: e.target.value,
                         })
                       }
-                      className="w-full p-3 text-sm bg-[#F4F8FA] border border-[#D1DBE0] rounded-lg text-[#002230] outline-none focus:border-[#004B6E]"
-                      type="text"
+                      className={`
+        w-full
+        p-3
+        rounded-lg
+        border
+        transition
+        ${
+          !isEditing
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : hasChanges
+              ? "border-green-500 bg-white"
+              : "border-blue-500 bg-white"
+        }
+    `}
                     />
                   </div>
 
@@ -269,6 +326,7 @@ export default function ProfileAndSettings() {
                       Phone Number
                     </label>
                     <input
+                      readOnly={!isEditing}
                       value={profile.phone}
                       onChange={(e) =>
                         setProfile({
@@ -276,9 +334,22 @@ export default function ProfileAndSettings() {
                           phone: e.target.value,
                         })
                       }
-                      className="w-full p-3 text-sm bg-[#F4F8FA] border border-[#D1DBE0] rounded-lg text-[#002230] outline-none focus:border-[#004B6E]"
                       type="tel"
                       defaultValue="+1 (555) 123-4567"
+                      className={`
+        w-full
+        p-3
+        rounded-lg
+        border
+        transition
+        ${
+          !isEditing
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : hasChanges
+              ? "border-green-500 bg-white"
+              : "border-blue-500 bg-white"
+        }
+    `}
                     />
                   </div>
                   <div className="space-y-1.5">
@@ -303,6 +374,8 @@ export default function ProfileAndSettings() {
                       User Name
                     </label>
                     <input
+                      type="text"
+                      readOnly={!isEditing}
                       value={profile.username}
                       onChange={(e) =>
                         setProfile({
@@ -310,8 +383,20 @@ export default function ProfileAndSettings() {
                           username: e.target.value,
                         })
                       }
-                      className="w-full p-3 text-sm bg-[#F4F8FA] border border-[#D1DBE0] rounded-lg text-[#002230] outline-none focus:border-[#004B6E]"
-                      type="text"
+                      className={`
+        w-full
+        p-3
+        rounded-lg
+        border
+        transition
+        ${
+          !isEditing
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : hasChanges
+              ? "border-green-500 bg-white"
+              : "border-blue-500 bg-white"
+        }
+    `}
                     />
                   </div>
 
@@ -319,7 +404,10 @@ export default function ProfileAndSettings() {
                     <label className="text-xs font-bold text-[#556370]">
                       State
                     </label>
+
                     <input
+                      type="text"
+                      readOnly={!isEditing}
                       value={profile.state}
                       onChange={(e) =>
                         setProfile({
@@ -327,8 +415,20 @@ export default function ProfileAndSettings() {
                           state: e.target.value,
                         })
                       }
-                      className="w-full p-3 text-sm bg-[#F4F8FA] border border-[#D1DBE0] rounded-lg text-[#002230] outline-none focus:border-[#004B6E]"
-                      type="text"
+                      className={`
+        w-full
+        p-3
+        rounded-lg
+        border
+        transition
+        ${
+          !isEditing
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : hasChanges
+              ? "border-green-500 bg-white"
+              : "border-blue-500 bg-white"
+        }
+    `}
                     />
                   </div>
 
@@ -336,7 +436,10 @@ export default function ProfileAndSettings() {
                     <label className="text-xs font-bold text-[#556370]">
                       Residential Address
                     </label>
+
                     <input
+                      type="text"
+                      readOnly={!isEditing}
                       value={profile.address}
                       onChange={(e) =>
                         setProfile({
@@ -344,12 +447,74 @@ export default function ProfileAndSettings() {
                           address: e.target.value,
                         })
                       }
-                      className="w-full p-3 text-sm bg-[#EDF6FA] border border-[#D0E3ED] rounded-lg text-[#556370] outline-none"
-                      type="text"
+                      className={`
+        w-full
+        p-3
+        rounded-lg
+        border
+        transition
+        ${
+          !isEditing
+            ? "bg-gray-100 border-gray-200 cursor-not-allowed"
+            : hasChanges
+              ? "border-green-500 bg-white"
+              : "border-blue-500 bg-white"
+        }
+    `}
                     />
                   </div>
                 </div>
               </section>
+              <div className="justify-center items-center">
+                <button
+                  onClick={handleSaveChanges}
+                  disabled={!hasChanges || !isEditing || saving}
+                  className={`
+        px-8
+        py-3
+        rounded-xl
+        font-bold
+        flex
+        items-center
+        justify-center
+        gap-2
+        transition
+
+        ${
+          !hasChanges || !isEditing
+            ? "bg-gray-300 cursor-not-allowed text-gray-500"
+            : "bg-[#004B6E] hover:bg-[#003856] text-white"
+        }
+    `}
+                >
+                  {saving ? (
+                    <>
+                      <svg
+                        className="animate-spin h-5 w-5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                      >
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                          opacity=".25"
+                        />
+
+                        <path
+                          fill="currentColor"
+                          d="M12 2a10 10 0 0110 10h-4a6 6 0 00-6-6V2z"
+                        />
+                      </svg>
+                      Saving...
+                    </>
+                  ) : (
+                    "Save Changes"
+                  )}
+                </button>
+              </div>
 
               {/* Card: Security & Authentication */}
               <section className="bg-white border border-[#E2E8F0] rounded-xl p-6 shadow-sm">
@@ -569,12 +734,6 @@ export default function ProfileAndSettings() {
 
               {/* Sticky Actions Trigger Section */}
               <div className="space-y-3 pt-2">
-                <button
-                  onClick={handleSaveChanges}
-                  className="w-full bg-[#004B6E] text-white font-bold text-sm py-3.5 rounded-xl shadow-sm hover:bg-[#003853] transition-colors"
-                >
-                  Save Changes
-                </button>
                 <button
                   onClick={() => setShowDeleteModal(true)}
                   className="w-full bg-red-500 border border-red-500 text-white font-bold text-sm py-3.5 rounded-xl hover:bg-red-700 transition-colors"

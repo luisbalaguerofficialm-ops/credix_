@@ -74,7 +74,7 @@ const EnterPin = ({ onClose, onConfirm }) => {
   const isPinComplete = pin.every(Boolean);
 
   const handleForgotPin = () => {
-    navigate("transaction-pin-otp");
+    navigate("/transaction-pin-otp");
   };
 
   return (

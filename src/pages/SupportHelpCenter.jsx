@@ -26,6 +26,7 @@ export default function SupportHelpCenter() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
@@ -35,6 +36,15 @@ export default function SupportHelpCenter() {
 
   useEffect(() => {
     initializeChat();
+  }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data } = await axiosClient.get("/api/auth/me");
+      setUser(data.user);
+    };
+
+    getUser();
   }, []);
 
   const initializeChat = async () => {
@@ -141,12 +151,12 @@ export default function SupportHelpCenter() {
                       automatic bill pay management.
                     </p>
                   </div>
-                  <a
+                  {/* <a
                     className="flex items-center text-sm font-semibold text-[#00516f] hover:underline"
                     href="#"
                   >
                     View Articles <ChevronRight className="w-4 h-4 ml-0.5" />
-                  </a>
+                  </a> */}
                 </div>
 
                 {/* */}
@@ -163,12 +173,9 @@ export default function SupportHelpCenter() {
                       protect your digital assets.
                     </p>
                   </div>
-                  <a
-                    className="flex items-center text-sm font-semibold text-[#00516f] hover:underline"
-                    href="#"
-                  >
-                    View Articles <ChevronRight className="w-4 h-4 ml-0.5" />
-                  </a>
+                  <p className="flex items-center text-sm font-semibold text-[#00516f] hover:underline">
+                    Chat With Us
+                  </p>
                 </div>
 
                 {/* */}
@@ -219,17 +226,27 @@ export default function SupportHelpCenter() {
             <div className="sticky top-24 bg-white rounded-xl border border-[#bfc8cf] overflow-hidden shadow-lg flex flex-col h-[520px]">
               {/* */}
               <div className="bg-[#00516f] p-4 text-white flex items-center justify-between">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 ">
                   <div className="relative">
                     <img
-                      alt="Sarah from Apex Support"
                       className="w-10 h-10 rounded-full object-cover border-2 border-white/20"
-                      src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop"
+                      src={
+                        user?.profileImage ||
+                        user?.image ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                          user?.fullName || "User",
+                        )}`
+                      }
+                      alt={user?.fullName}
                     />
-                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#c9f081] rounded-full border-2 border-[#00516f]"></span>
+                    <span className="text-green-400">Online</span>
+                    <span className="absolute bottom-7 right-0 w-3 h-3 bg-[#81f08a] rounded-full border-2 border-[#00516f]"></span>
                   </div>
+
                   <div>
-                    <p className="font-bold text-sm leading-tight">Sarah</p>
+                    <p className="font-bold text-sm leading-tight">
+                      {user?.fullName}
+                    </p>
                     <p className="text-xs text-white/80">Chat with us </p>
                   </div>
                 </div>

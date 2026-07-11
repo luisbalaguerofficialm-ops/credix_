@@ -47,25 +47,13 @@ export default function ThirdSetTransfer() {
         transactionPin,
       };
 
-      const { data } = await axiosClient.post("/api/transactions", {
-        ...payload,
-        transactionPin,
-      });
-
-      const result = data;
-
+      const { data } = await axiosClient.post("/api/transactions", payload);
       toast.success(data.message);
       // clear transfar data after success
       localStorage.removeItem("transferData");
 
-      navigate(`/transfer-successfully/${result.transaction._id}`);
+      navigate(`/transfer-successfully/${data.transaction._id}`);
     } catch (error) {
-      console.log("Status:", error.response?.status);
-      console.log("Response:", error.response?.data);
-      console.log("Request payload:", {
-        ...payload,
-        transactionPin,
-      });
       toast.error(error?.response?.data?.message || "transfer failed");
     } finally {
       setLoading(false);
@@ -196,7 +184,7 @@ export default function ThirdSetTransfer() {
                 <button
                   onClick={handleBack}
                   type="button"
-                  className="flex-1 w-9 h-12 bg-slate-100 text-[#40484e] rounded-xl font-semibold text-sm hover:bg-slate-200/70 transition-colors"
+                  className="p-3 flex-1 h-12 bg-slate-100 text-[#40484e] rounded-xl font-semibold text-sm hover:bg-slate-200/70"
                 >
                   Back to Step 2
                 </button>

@@ -65,6 +65,10 @@ export default function TransactionDetails() {
 
   const currentStep = statusSteps.indexOf(transaction.status);
 
+  const handBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="bg-[#f4f9fc] text-[#001e2b] font-sans selection:bg-[#005a78] selection:text-white min-h-screen flex flex-col">
       {/* --- Main Area Content --- */}
@@ -279,12 +283,8 @@ ${
           {/* Bottom Footer Actions Panel */}
           <div className="p-5 bg-gray-50 flex flex-col sm:flex-row gap-3 justify-between items-stretch sm:items-center border-t border-gray-100">
             <div className="flex flex-col sm:flex-row gap-2">
-              <button className="px-4 py-2.5 bg-[#005a78] text-white text-sm font-semibold rounded hover:bg-[#004b6e] transition-all flex items-center justify-center gap-2">
-                <Download className="w-4 h-4" />
-                Download Receipt
-              </button>
               <button
-                onClick={() => navigate(-1)}
+                onClick={handBack}
                 className="px-4 py-2.5 border border-gray-200 bg-white text-gray-600 text-sm font-semibold rounded hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
               >
                 <ArrowLeft className="w-4 h-4" />

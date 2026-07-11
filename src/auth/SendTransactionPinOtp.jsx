@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosClient from "../util/axiosClient";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -212,13 +212,14 @@ export default function SendTransactionPinOtp() {
         {/* Footer Area with Navigation Utilities */}
         <footer className="w-full max-w-[500px] flex justify-between items-center px-4 mt-auto pt-6 text-xs font-semibold text-[#4a5568]">
           {/* Back navigation matching left alignment of screen000.png */}
-          <a
+          <Link
+            to="/profile-settings"
             className="hover:text-[#004c66] flex items-center gap-2 transition-colors"
             href="#"
           >
             <User className="w-4 h-4 stroke-[2.5]" />
             <span>Back to Profile</span>
-          </a>
+          </Link>
 
           {/* Security badge matching right alignment of screen000.png */}
           <div className="flex items-center gap-1.5 text-slate-400 font-medium">

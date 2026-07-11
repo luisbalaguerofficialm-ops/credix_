@@ -93,7 +93,7 @@ export default function NotificationCenter() {
     try {
       setMarkingAll(true);
 
-      const { data } = await axiosClient.patch("/api/notifications/read-all");
+      const { data } = await axiosClient.put("/api/notifications/read-all");
 
       toast.success(data.message || "All notifications marked as read");
 
@@ -212,7 +212,6 @@ export default function NotificationCenter() {
                 {markingAll ? (
                   <>
                     <RefreshCw className="w-5 h-5 animate-spin" />
-                    
                   </>
                 ) : (
                   <>
@@ -318,7 +317,7 @@ export default function NotificationCenter() {
                 <div className="space-y-3">
                   {loading ? (
                     <div className="py-20 text-center">
-                      Loading notifications...
+                      {/* Loading notifications... */}
                     </div>
                   ) : notifications.length === 0 ? (
                     <div className="py-20 text-center text-gray-500">

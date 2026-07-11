@@ -2,8 +2,8 @@ import React from "react";
 import { useMemo, useState, useEffect } from "react";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { useNavigate } from "react-router-dom";
-import { Globe, Info } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowBigLeft, Globe, Info } from "lucide-react";
 import TransactionStep from "../components/TransactionStep";
 
 export default function FirstSepTransfer() {
@@ -253,6 +253,15 @@ export default function FirstSepTransfer() {
                 </button>
               </div>
             </form>
+          </div>
+          <div className="flex mb-2 justify-center items-center">
+            <Link
+              to="/user-dashboard"
+              className="inline-flex items-center gap-2 text-[#1a6f94] text-sm hover:underline"
+            >
+              <ArrowBigLeft className="w-4 h-4" />
+              <span>Dashboard</span>
+            </Link>
           </div>
         </div>
       </main>
