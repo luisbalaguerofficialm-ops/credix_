@@ -311,13 +311,10 @@ export default function NotificationCenter() {
             <div className="lg:col-span-3 space-y-8">
               {/* --- Today Segment --- */}
               <div>
-                {/* <h3 className="text-xs font-bold text-[#54626d] uppercase tracking-wider mb-4 px-1">
-                Today
-              </h3> */}
                 <div className="space-y-3">
                   {loading ? (
                     <div className="py-20 text-center">
-                      {/* Loading notifications... */}
+                      Loading.....
                     </div>
                   ) : notifications.length === 0 ? (
                     <div className="py-20 text-center text-gray-500">
