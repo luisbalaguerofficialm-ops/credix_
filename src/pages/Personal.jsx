@@ -96,7 +96,7 @@ export default function Personal() {
                 >
                   Open an Account
                 </Link>
-                <button className="bg-white/10 backdrop-blur-xs text-white border border-white/20 px-6 py-3 rounded text-xs font-bold hover:bg-white/20 transition-colors">
+                <button className="backdrop-blur-xs text-white px-6 py-3 rounded text-xs font-bold  transition-colors">
                   Compare Products
                 </button>
               </div>

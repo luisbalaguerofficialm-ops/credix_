@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosClient from "../util/axiosClient";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
   Check,
@@ -309,9 +309,12 @@ ${
               </p>
             </div>
           </div>
-          <button className="whitespace-nowrap w-full md:w-auto px-5 py-2 border border-gray-300 text-[#001e2b] text-sm font-semibold rounded-md hover:bg-gray-50 transition-all">
+          <Link
+            to="/profile-settingss"
+            className="whitespace-nowrap w-full md:w-auto px-5 py-2 border border-gray-300 text-[#001e2b] text-sm font-semibold rounded-md hover:bg-gray-50 transition-all"
+          >
             Contact Concierge
-          </button>
+          </Link>
         </div>
       </main>
     </div>

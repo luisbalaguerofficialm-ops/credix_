@@ -10,11 +10,21 @@ export const AuthProvider = ({ children }) => {
 
   // ================= FETCH USER =================
   const fetchUser = useCallback(async () => {
-    setLoading(true); // 🔹 optional: show loading during updates
+    const token = localStorage.getItem("accessToken");
+
+    if (!token) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
     try {
       const res = await axiosClient.get("/api/auth/me");
       setUser(res.data.user);
     } catch (err) {
+      setUser(null);
       console.error("Failed to refresh user:", err);
     } finally {
       setLoading(false);
@@ -23,7 +33,11 @@ export const AuthProvider = ({ children }) => {
 
   // ================= INITIAL LOAD =================
   useEffect(() => {
-    fetchUser();
+    if (localStorage.getItem("accessToken")) {
+      fetchUser();
+    } else {
+      setLoading(false);
+    }
   }, [fetchUser]);
 
   // ================= SOCKET LISTENERS =================

@@ -749,7 +749,7 @@ export default function ProfileAndSettings() {
         <footer className="w-full py-8 bg-[#1A303B] text-white mt-12">
           <div className="max-w-[1240px] mx-auto px-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div className="space-y-1">
-              <span className="font-bold text-md"> Credit Union</span>
+              <span className="font-bold text-md"> America Bank</span>
               <p className="text-xs text-[#BCE6FF] opacity-70">
                 Secure banking for the modern age. Member-focused,
                 community-driven.
@@ -772,7 +772,7 @@ export default function ProfileAndSettings() {
                 </a>
               </nav>
               <p className="text-[11px] text-[#BCE6FF] opacity-50 md:text-right">
-                © 2026 Credit Union. Member NCUA. Equal Housing Lender.
+                © 2026 America. Member NCUA. Equal Housing Lender.
               </p>
             </div>
           </div>

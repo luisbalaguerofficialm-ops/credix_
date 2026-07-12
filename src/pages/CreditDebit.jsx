@@ -1,6 +1,7 @@
 import React from "react";
 import CountUp from "../components/ui/CountUp";
 import { Link } from "react-router-dom";
+import card from "../assets/card22.jpg"
 
 export default function CreditDebit() {
   return (
@@ -12,7 +13,7 @@ export default function CreditDebit() {
             <img
               className="w-full h-full object-cover opacity-25 mix-blend-overlay"
               alt="Premium Credit Card Environment Background"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8kGaO7q2hgO2Ge4cF19akZgpdqEQqw6zYQtGa7pSbS1u5o-YB3sWYL7Uq6qDszlE9H9PJBtTk3PLLelvLA3kFjG0Wqt8ccVFqF5uVkKmE-tng5qul5NLjWBXyNwb8SM3rOssird8UuwLLmXw1uMQBCaUMfQ92OzU7tt--687PDn21hSfpB3kND7paYta1JW0lpcmJWBn5h4yN4me_WMXLNlPnVfyNTqbtFE1M_bS_Y6HbEkyEi8YvV7oGwmX1cXQnixAVGXce8xI"
+              src={card}
             />
           </div>
           <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 w-full py-16">

@@ -5,23 +5,21 @@ import axiosClient from "../util/axiosClient";
 
 export default function TransferSuccessfully() {
   const navigate = useNavigate();
-  const { transactionId } = useParams();
+  const { id } = useParams();
 
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!transactionId) {
+    if (!id) {
       navigate("/user-dashboard");
       return;
     }
 
     const fetchTransaction = async () => {
       try {
-        const res = await axiosClient.get(
-          `/api/transactions/${data.transaction._id}`,
-        );
+        const res = await axiosClient.get(`/api/transactions/${id}`);
 
         if (!res.data.success) {
           throw new Error(res.data.message || "Transaction not found");
@@ -40,7 +38,7 @@ export default function TransferSuccessfully() {
     };
 
     fetchTransaction();
-  }, [transactionId, navigate]);
+  }, [id, navigate]);
 
   const handleBackToDashboard = () => {
     navigate("/user-dashboard");

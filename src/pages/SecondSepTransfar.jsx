@@ -1,8 +1,7 @@
 import React from "react";
-import { Check, Mail, ShieldAlert } from "lucide-react";
+import { Mail, ShieldAlert } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import TransactionStep from "../components/TransactionStep";
 
 export default function SecondSepTransfer() {
   const navigate = useNavigate();
@@ -32,36 +31,37 @@ export default function SecondSepTransfer() {
   };
 
   return (
-    <div className="bg-[#f3faff] text-[#001f29] min-h-screen flex flex-col font-sans antialiased">
-      {/* --- TopNavBar (Matches Step 1 Global Design Architecture) --- */}
-
+    <div className="bg-[#f3faff] text-[#001f29] min-h-screen flex flex-col font-sans antialiased overflow-x-hidden">
       {/* --- Main Content Area --- */}
-      <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-[620px]">
-          {/* Header Title Section Context */}
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-extrabold text-[#111827] tracking-tight mb-8">
+      <main className="flex-grow flex items-start sm:items-center justify-center py-5 sm:py-12 px-3 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[620px]">
+          {/* Header */}
+          <div className="mb-5 sm:mb-8 text-center">
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-[#111827] tracking-tight">
               Transfer Money
             </h1>
-
-            {/* Progress Stepper Tracking Indicator */}
           </div>
 
-          {/* Core Transfer Form Card Context Layout */}
-          <div className="bg-white border border-[#bfc8cf] rounded-2xl p-6 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-              {/* Amount Transferred Input Area */}
+          {/* Card */}
+          <div className="bg-white border border-[#bfc8cf] rounded-xl sm:rounded-2xl p-4 sm:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+            <form
+              className="space-y-5 sm:space-y-6"
+              onSubmit={(e) => e.preventDefault()}
+            >
+              {/* Amount */}
               <div className="space-y-2">
                 <label
-                  className="block text-xs font-bold uppercase tracking-wider text-[#334155]"
                   htmlFor="amount"
+                  className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#334155]"
                 >
                   Amount ($)
                 </label>
+
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                     <span className="text-[#40484e] font-bold text-lg">$</span>
                   </div>
+
                   <input
                     type="number"
                     id="amount"
@@ -69,69 +69,73 @@ export default function SecondSepTransfer() {
                     value={amount}
                     onChange={(e) => setAmount(e.target.value)}
                     placeholder="0.00"
-                    className="w-full bg-slate-50/50 h-14 pl-9 pr-4 border border-[#bfc8cf] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00516f] focus:border-transparent transition-all text-xl font-bold tracking-tight text-[#00516f] placeholder:text-[#bfc8cf]"
+                    className="w-full h-12 sm:h-14 pl-9 pr-4 bg-slate-50 border border-[#bfc8cf] rounded-xl text-lg sm:text-xl font-bold text-[#00516f] placeholder:text-[#bfc8cf] focus:outline-none focus:ring-2 focus:ring-[#00516f]"
                   />
                 </div>
-                <p className="text-xs text-[#54626d] font-medium pl-1">
-                  Available Balance: Available Balance: $
-                  {balance.toLocaleString()}
+
+                <p className="text-[11px] sm:text-xs text-[#54626d] font-medium">
+                  Available Balance: ${balance.toLocaleString()}
                 </p>
               </div>
 
-              {/* Recipient Electronic Mail Notification Address */}
+              {/* Email */}
               <div className="space-y-2">
                 <label
-                  className="block text-xs font-bold uppercase tracking-wider text-[#334155]"
                   htmlFor="email"
+                  className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#334155]"
                 >
                   Recipient Email
                 </label>
+
                 <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#64748b] pointer-events-none">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#64748b]">
                     <Mail className="w-5 h-5" />
                   </span>
+
                   <input
                     type="email"
                     id="email"
                     value={recipientEmail}
                     onChange={(e) => setRecipientEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full h-12 pl-12 pr-4 border border-[#bfc8cf] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00516f] focus:border-transparent transition-all text-sm font-medium"
+                    className="w-full h-12 pl-12 pr-4 border border-[#bfc8cf] rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#00516f]"
                   />
                 </div>
               </div>
 
-              {/* Optional Narration / Reference Subtext Input Field */}
+              {/* Narration */}
               <div className="space-y-2">
                 <label
-                  className="block text-xs font-bold uppercase tracking-wider text-[#334155]"
                   htmlFor="narration"
+                  className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#334155]"
                 >
                   Narration / Description
                 </label>
+
                 <textarea
                   id="narration"
-                  rows={3}
+                  rows={4}
                   value={narration}
                   onChange={(e) => setNarration(e.target.value)}
                   placeholder="What is this transfer for?"
-                  className="w-full p-4 border border-[#bfc8cf] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#00516f] focus:border-transparent transition-all text-sm font-medium resize-none"
+                  className="w-full p-4 border border-[#bfc8cf] rounded-xl resize-none text-sm focus:outline-none focus:ring-2 focus:ring-[#00516f]"
                 />
               </div>
 
-              {/* Form Action Controls Trigger Group */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 pt-4">
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2 sm:pt-4">
                 <button
-                  onClick={handleBack}
                   type="button"
-                  className="w-full sm:w-1/3 order-2 sm:order-1 h-12 font-semibold text-sm text-[#40484e] border border-[#bfc8cf] rounded-xl hover:bg-slate-100 transition-all"
+                  onClick={handleBack}
+                  className="w-full sm:w-1/3 h-12 border border-[#bfc8cf] rounded-xl font-semibold text-[#40484e] hover:bg-slate-100 transition"
                 >
                   Back
                 </button>
+
                 <button
-                  onClick={handleContinue}
                   type="submit"
-                  className="w-full sm:w-2/3 order-1 sm:order-2 h-12 font-semibold text-sm bg-[#00516f] text-white rounded-xl shadow-sm hover:bg-[#003a52] transition-all"
+                  onClick={handleContinue}
+                  className="w-full sm:w-2/3 h-12 rounded-xl bg-[#00516f] text-white font-semibold hover:bg-[#003a52] transition"
                 >
                   Continue to Review
                 </button>
@@ -139,10 +143,11 @@ export default function SecondSepTransfer() {
             </form>
           </div>
 
-          {/* Bottom Security Cryptographic Warning Notice */}
-          <div className="mt-8 flex gap-3 p-4 bg-[#e5f6ff] rounded-xl border border-[#00516f]/10">
-            <ShieldAlert className="w-5 h-5 text-[#006a91] shrink-0 mt-0.5" />
-            <p className="text-xs leading-relaxed text-[#40484e] font-medium">
+          {/* Security Notice */}
+          <div className="mt-5 sm:mt-8 flex items-start gap-3 p-4 bg-[#e5f6ff] rounded-xl border border-[#00516f]/10">
+            <ShieldAlert className="w-5 h-5 text-[#006a91] shrink-0 mt-1" />
+
+            <p className="text-[12px] sm:text-xs leading-relaxed text-[#40484e] font-medium">
               Your transaction is protected by bank-grade encryption. Nexus Bank
               will never ask for your password or PIN via email.
             </p>
@@ -150,65 +155,63 @@ export default function SecondSepTransfer() {
         </div>
       </main>
 
-      {/* --- Footer Component Block --- */}
+      {/* Footer */}
       <footer className="w-full bg-[#1c333d] text-white mt-auto">
-        <div className="max-w-7xl mx-auto pt-12 pb-8 px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-start gap-8">
-          <div className="space-y-3">
-            <div className="text-xl font-bold tracking-tight">Nexus Bank</div>
-            <p className="text-xs text-slate-300 leading-relaxed max-w-xs font-medium">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-10 flex flex-col gap-10 md:flex-row md:justify-between md:items-start">
+          {/* Left */}
+          <div className="space-y-3 text-center md:text-left">
+            <h2 className="text-xl font-bold">Nexus Bank</h2>
+
+            <p className="text-xs text-slate-300 leading-relaxed max-w-xs mx-auto md:mx-0">
               Secure, intelligent banking for the modern age. Elevate your
               financial future.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-x-16 gap-y-6">
-            <div className="flex flex-col space-y-2 text-xs">
-              <span className="font-bold uppercase tracking-wider text-slate-400 text-[10px]">
+          {/* Links */}
+          <div className="grid grid-cols-2 gap-8 w-full md:w-auto">
+            <div className="space-y-3 text-center md:text-left">
+              <h3 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                 Company
-              </span>
-              <a
-                className="text-slate-300 hover:text-white transition-colors"
-                href="#"
-              >
-                Privacy Policy
-              </a>
-              <a
-                className="text-slate-300 hover:text-white transition-colors"
-                href="#"
-              >
-                Terms of Service
-              </a>
+              </h3>
+
+              <div className="flex flex-col gap-2 text-xs">
+                <a href="#" className="text-slate-300 hover:text-white">
+                  Privacy Policy
+                </a>
+
+                <a href="#" className="text-slate-300 hover:text-white">
+                  Terms of Service
+                </a>
+              </div>
             </div>
-            <div className="flex flex-col space-y-2 text-xs">
-              <span className="font-bold uppercase tracking-wider text-slate-400 text-[10px]">
+
+            <div className="space-y-3 text-center md:text-left">
+              <h3 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                 Support
-              </span>
-              <a
-                className="text-slate-300 hover:text-white transition-colors"
-                href="#"
-              >
-                Security
-              </a>
-              <a
-                className="text-slate-300 hover:text-white transition-colors"
-                href="#"
-              >
-                Help Center
-              </a>
-              <a
-                className="text-slate-300 hover:text-white transition-colors"
-                href="#"
-              >
-                Contact Us
-              </a>
+              </h3>
+
+              <div className="flex flex-col gap-2 text-xs">
+                <a href="#" className="text-slate-300 hover:text-white">
+                  Security
+                </a>
+
+                <a href="#" className="text-slate-300 hover:text-white">
+                  Help Center
+                </a>
+
+                <a href="#" className="text-slate-300 hover:text-white">
+                  Contact Us
+                </a>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Legal copyright footer base metadata line */}
-        <div className="w-full bg-[#15272e] py-4 px-4 text-center border-t border-white/5">
-          <p className="text-[11px] text-slate-400 font-medium">
-            © 2026 Credit union Bank. Member FDIC. Equal Housing Lender.
+        {/* Bottom */}
+        <div className="border-t border-white/10 bg-[#15272e] py-4 px-4 text-center">
+          <p className="text-[11px] text-slate-400">
+            © 2026 America Bank. Member FDIC. Equal Housing Lender.
           </p>
         </div>
       </footer>

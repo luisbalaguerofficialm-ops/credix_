@@ -269,9 +269,7 @@ export default function AllTransactionHistory() {
                 <tbody className="divide-y divide-[#F0F4F8]">
                   {loading ? (
                     <tr>
-                      <td colSpan={5} className="py-10 text-center">
-                        Loading...
-                      </td>
+                      <td colSpan={5} className="py-10 text-center"></td>
                     </tr>
                   ) : transactions.length === 0 ? (
                     <tr>

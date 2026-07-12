@@ -278,9 +278,12 @@ const MainHome = () => {
             grow confidently — today and tomorrow.
           </p>
 
-          <button className="bg-[#007C92] w-[140px] h-10 text-white text-sm px-8 py-2 rounded-lg hover:bg-[#006b80] transition duration-200">
+          <Link
+            to="/login"
+            className="bg-[#007C92] w-[140px] h-10 text-white text-sm px-8 py-2 rounded-lg hover:bg-[#006b80] transition duration-200"
+          >
             Learn More
-          </button>
+          </Link>
         </div>
       </section>
       {/* ===================== */}

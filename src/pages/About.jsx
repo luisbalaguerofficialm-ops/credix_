@@ -15,6 +15,7 @@ import {
 import chan from "../assets/chan.png";
 import { Link } from "react-router";
 import ScrollReveal from "scrollreveal";
+import men from "../assets/men.jpg"
 
 export default function About() {
   useEffect(() => {
@@ -41,9 +42,9 @@ export default function About() {
         <section className="relative h-[480px] flex items-center overflow-hidden bg-gray-900">
           <div className="absolute inset-0 z-0">
             <img
-              alt="Credit Union Team"
+              alt="America Bank Team"
               className="w-full h-full object-cover opacity-80"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuA33hHIjqBk86CVk9kXz_FzVvzHyOEGgeMC8OFzcSLJbgg0xsUlcsydRQJqTh51Ez2STIcJ6kB2nPNiQIU7g4L_Hl7wDBnSDTGGICOy9S92LUdN1-lCTdIEjB28aa0ekT-q42do-FiBCJq-xNPNX4LgkQMWALCBx4YvXPAFc4bRKF-fp9R8R0UyteuxnbosLA5iVcjcXyepOoJfbTAVQ3wJKB-rwlWFO3BzKHSHUKz2i1pqLZyKKHXtJk_ziZ6LZ3qGusa8SycT9o8"
+              src={men}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
           </div>

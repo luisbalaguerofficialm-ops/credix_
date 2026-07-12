@@ -75,7 +75,7 @@ const Footer = () => {
           {/* === Banking Services === */}
           <div className="flex flex-col items-center gap-5 md:items-start justify-center">
             <h3 className="font-bold mb-4 text-white text-lg">
-              Banking Services
+               Services
             </h3>
             <div className="flex flex-col gap-3">
               <li>
@@ -136,7 +136,7 @@ const Footer = () => {
 
         {/* ===== Divider & Copyright ===== */}
         <div className="border-t border-gray-500 pt-6 mt-10 text-center text-sm text-green-400 w-full">
-          Copyright © {new Date().getFullYear()} Credit Union Bank. All rights
+          Copyright © {new Date().getFullYear()} America Bank. All rights
           reserved.
         </div>
       </div>

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import CountUp from "../components/ui/CountUp";
 import ScrollReveal from "scrollreveal";
+import suit from "../assets/men on suit.jpg"
 
 export default function Business() {
   useEffect(() => {
@@ -23,19 +24,7 @@ export default function Business() {
   return (
     <div className="bg-white text-[#001f29] text-left min-h-screen flex flex-col font-sans antialiased">
       {/* Top Utility Bar */}
-      <div className="bg-[#11242e] text-white py-2 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-end gap-6 text-[11px] font-medium opacity-80">
-          <a className="hover:text-white transition-colors" href="#">
-            Locations
-          </a>
-          <a className="hover:text-white transition-colors" href="#">
-            Support
-          </a>
-          <a className="hover:text-white transition-colors" href="#">
-            Careers
-          </a>
-        </div>
-      </div>
+  
 
       <main>
         {/* Hero Section */}
@@ -44,7 +33,7 @@ export default function Business() {
             <img
               className="w-full h-full object-cover opacity-35 mix-blend-overlay"
               alt="Corporate window cityscape backdrop"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuALeyhQSwvWJ26ywwAYPNbm1vp4aRh1ZeEb6emRdsrJr33PpSe9nPdvNclQNBMI_GLwAAbkJH2eSERBoZLt_FdBL2ySxEW8TCg73_ifbYynhd2mutH9qIO1vh-CLSzgsBRjXKsLFE40kUCVxhKBifRA-wa0x_2Daelw9RdkL5IqTz-w3utTt__qWJpfkICR5vKy3iT31KMLrwrw0CQvlq36Vlf6e2iFSXU0nLRFUxVZj1R_Q3NnxNs5D8ylrP52Ik-4kKNMfGSauag"
+              src={suit}
             />
           </div>
           <div className="relative z-10 max-w-7xl mx-auto w-full px-6 md:px-12 py-16">

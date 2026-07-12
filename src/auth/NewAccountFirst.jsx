@@ -20,6 +20,7 @@ export default function NewAccountfirst() {
   });
 
   const handleContinue = () => {
+    if (!selectedAccount) return;
     localStorage.setItem("choosedAccount", selectedAccount);
     // Navigate to the next step in the account creation process
     navigate("/account-persional-info");
@@ -208,7 +209,12 @@ export default function NewAccountfirst() {
           <div className="flex gap-4 w-full md:w-auto justify-end">
             <button
               onClick={handleContinue}
-              className="flex-1 md:flex-initial px-8 py-3 bg-[#006a91] text-white font-semibold text-sm rounded-lg hover:bg-[#005676] transition-colors shadow-sm"
+              disabled={!selectedAccount}
+              className={`flex-1 md:flex-initial px-8 py-3 font-semibold text-sm rounded-lg shadow-sm transition-colors ${
+                selectedAccount
+                  ? "bg-[#006a91] text-white hover:bg-[#005676] cursor-pointer"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
             >
               Continue to Personal Info
             </button>

@@ -17,18 +17,19 @@ import {
   Car,
   ShieldCheck,
 } from "lucide-react";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import axiosClient from "../util/axiosClient";
+import { AuthContext } from "../context/AuthContext";
 
 export default function UserDashboard() {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
   const socketRef = useRef(null);
 
   const [loading, setLoading] = useState(true);
 
-  const [user, setUser] = useState(null);
   const [balance, setBalance] = useState(0);
   const [currency, setCurrency] = useState("USD");
   const [accountNumber, setAccountNumber] = useState("");
@@ -185,17 +186,18 @@ export default function UserDashboard() {
     try {
       setLoggingOut(true);
 
-      await axiosClient.post("/api/auth/logout");
+      await axiosClient.post("/api/auth/logout").catch(() => {});
 
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("user");
+      socketRef.current?.disconnect();
+
+      localStorage.clear();
       sessionStorage.clear();
 
-      toast.success("Logged out successfully.");
+      setUser(null);
 
       navigate("/login", { replace: true });
     } catch (err) {
-      toast.error("Failed to logout.");
+      console.error(err);
     } finally {
       setLoggingOut(false);
       setShowLogoutModal(false);

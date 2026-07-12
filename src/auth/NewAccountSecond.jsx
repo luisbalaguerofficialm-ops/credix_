@@ -88,7 +88,7 @@ export default function NewAccountSecond() {
         <div className="max-w-[1400px] mx-auto h-full px-6 flex items-center justify-between">
           <div className="flex items-center gap-1">
             <h1 className="text-[20px] font-bold text-[#00516f]">
-            America Bank
+              America Bank
             </h1>
           </div>
           <button className="flex items-center gap-2 text-[#40484e] hover:text-[#00516f] transition">
@@ -100,16 +100,16 @@ export default function NewAccountSecond() {
 
       {/* MAIN */}
       <main className="flex-1 pt-[110px] pb-16">
-        <div className="max-w-[1400px] mx-auto px-6">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-6">
           <div className="flex justify-center mb-14">
             <RegistrationStepper currentStep={2} />
           </div>
 
           {/* CONTENT GRID */}
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* LEFT PANEL */}
-            <div className="col-span-8">
-              <div className="bg-white rounded-xl border border-[#c8d0d5] p-12 min-h-[760px]">
+            <div className="lg:col-span-8">
+              <div className="bg-white rounded-xl border border-[#c8d0d5] p-5 md:p-8 lg:p-12">
                 <div className="mb-10">
                   <h2 className="text-[32px] font-semibold text-[#00516f] mb-3">
                     Tell us about yourself
@@ -122,7 +122,7 @@ export default function NewAccountSecond() {
                 </div>
 
                 <form className="space-y-6">
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block mb-2 font-medium">
                         First Name
@@ -182,7 +182,7 @@ export default function NewAccountSecond() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="block mb-2 font-medium">
                         Email Address
@@ -274,7 +274,7 @@ export default function NewAccountSecond() {
                     />
                   </div>
 
-                  <div className="flex gap-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="col-span-1">
                       <label className="block mb-2 font-medium">State</label>
 
@@ -288,7 +288,7 @@ export default function NewAccountSecond() {
                             city: "",
                           }));
                         }}
-                        className="w-50 h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
+                        className="w-80 md:w-190 h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
                       >
                         <option value="">Select State</option>
 
@@ -307,7 +307,7 @@ export default function NewAccountSecond() {
                         value={formData.city}
                         onChange={handleChange}
                         disabled={!formData.state}
-                        className="w-50 h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
+                        className="w-full h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
                       >
                         <option value="">Select City</option>
 
@@ -327,7 +327,7 @@ export default function NewAccountSecond() {
                         name="zipcode"
                         value={formData.zipcode}
                         onChange={handleChange}
-                        className="w-full h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
+                        className="w-80 md:w-190 h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
                       />
                     </div>
 
@@ -340,7 +340,7 @@ export default function NewAccountSecond() {
                         name="accountType"
                         value={formData.accountType}
                         onChange={handleChange}
-                        className="w-50 h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
+                        className="w-full h-14 px-4 bg-[#f5f7f9] border border-[#c8d0d5] rounded-md"
                       >
                         <option value="">Select account type</option>
                         <option value="Savings">Savings</option>
@@ -350,7 +350,7 @@ export default function NewAccountSecond() {
                     </div>
                   </div>
 
-                  <div className="border-t border-[#c8d0d5] pt-8 flex justify-between">
+                  <div className="border-t border-[#c8d0d5] pt-8 gap-3 flex justify-between">
                     <button
                       type="button"
                       onClick={handleBack}
@@ -379,7 +379,7 @@ export default function NewAccountSecond() {
             </div>
 
             {/* RIGHT SIDEBAR */}
-            <aside className="col-span-4 space-y-6">
+            <aside className="lg:col-span-4 space-y-6">
               <div className=" flex flex-col text-left bg-[#1f4b59] rounded-xl p-8 text-white">
                 <ShieldCheck size={42} className="text-[#c9f081] mb-6" />
 

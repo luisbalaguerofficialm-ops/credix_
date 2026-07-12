@@ -17,7 +17,7 @@ import hero6 from "../assets/images88.jpg";
 const Herosection = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const images = [hero1, hero2, hero3, hero4, hero5, hero6];
+  const images = [hero2, hero3, hero4, hero1, hero5, hero6];
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const [loginData, setLoginData] = useState({
