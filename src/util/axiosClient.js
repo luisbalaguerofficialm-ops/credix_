@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import socket from "./Socket"; // 🔹 Import your socket instance
 
 // Base URL (deployed backend)
-const API_URL = "https://api.credixa.co";
+// const API_URL = "https://api.credixa.co";
 
 // Create axios instance
 const axiosClient = axios.create({
