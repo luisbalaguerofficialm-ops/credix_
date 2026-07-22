@@ -14,7 +14,7 @@ export default function PasswordResetSuccessfully() {
           {/* Branding */}
           <div className="mb-10">
             <span className="text-3xl font-bold text-[#004b66] tracking-tight">
-              Credit Union
+              America Bank
             </span>
           </div>
 

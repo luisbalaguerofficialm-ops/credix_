@@ -74,7 +74,7 @@ const Login = () => {
                 name="identifier"
                 value={loginData.identifier}
                 onChange={handleChange}
-                placeholder="example@gmail.com"
+                placeholder="example@gmail.com or userName"
                 className="w-full h-11 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#006A91]"
               />
             </div>
