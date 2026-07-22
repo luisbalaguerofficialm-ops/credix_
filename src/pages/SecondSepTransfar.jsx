@@ -5,7 +5,7 @@ import { useState } from "react";
 
 export default function SecondSepTransfer() {
   const navigate = useNavigate();
-
+  const [transferType, setTransferType] = useState("");
   const [amount, setAmount] = useState("");
   const [recipientEmail, setRecipientEmail] = useState("");
   const [narration, setNarration] = useState("");
@@ -18,6 +18,7 @@ export default function SecondSepTransfer() {
       "transferData",
       JSON.stringify({
         ...existingData,
+        transferType,
         amount,
         recipientEmail,
         narration,
@@ -48,6 +49,31 @@ export default function SecondSepTransfer() {
               className="space-y-5 sm:space-y-6"
               onSubmit={(e) => e.preventDefault()}
             >
+              {/* Transfer Type */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="transferType"
+                  className="block text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#334155]"
+                >
+                  Transfer Type
+                </label>
+
+                <select
+                  id="transferType"
+                  value={transferType}
+                  onChange={(e) => setTransferType(e.target.value)}
+                  className="w-full h-12 sm:h-14 px-4 border border-[#bfc8cf] rounded-xl bg-white text-sm font-medium text-[#00516f] focus:outline-none focus:ring-2 focus:ring-[#00516f]"
+                >
+                  <option value="">choose a method</option>
+                  <option value="Domestic">Domestic Transfer</option>
+                  <option value="International">International Transfer</option>
+                  <option value="Wire">Wire Transfer</option>
+                </select>
+
+                <p className="text-[11px] text-[#64748b]">
+                  Select the type of transfer you want to perform.
+                </p>
+              </div>
               {/* Amount */}
               <div className="space-y-2">
                 <label

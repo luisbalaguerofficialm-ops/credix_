@@ -40,6 +40,7 @@ export default function ThirdSetTransfer() {
         bankName: transferData.bankName,
         recipientCountry: transferData.recipientCountry,
         accountNumber: transferData.accountNumber,
+        transferType: transferData.transferType,
         amount: transferData.amount,
         iban: transferData.iban,
         swiftCode: transferData.swiftCode,
@@ -130,6 +131,14 @@ export default function ThirdSetTransfer() {
                   </span>
                   <span className="text-sm text-[#001f29] font-bold">
                     {transferData.bankName}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-3.5">
+                  <span className="text-sm text-[#54626d] font-medium">
+                    TransferType
+                  </span>
+                  <span className="text-sm text-[#001f29] font-bold">
+                    {transferData.transferType}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-3.5">

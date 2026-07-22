@@ -77,7 +77,7 @@ export default function NotificationCenter() {
     try {
       setMarkingOne(id);
 
-      const { data } = await axiosClient.put(`/api/notifications/${id}/read`);
+      const { data } = await axiosClient.patch(`/api/notifications/${id}/read`);
 
       toast.success(data.message || "Notification marked as read");
 
@@ -93,7 +93,7 @@ export default function NotificationCenter() {
     try {
       setMarkingAll(true);
 
-      const { data } = await axiosClient.put("/api/notifications/read-all");
+      const { data } = await axiosClient.patch("/api/notifications/read-all");
 
       toast.success(data.message || "All notifications marked as read");
 
